@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhador da Família - Comemorando 8 Meses do Nosso Pequeno!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Tela de Início -->
+        <div id="welcome-screen" class="screen active">
+            <div class="header">
+                <h1 class="title">🎉 Adivinhador da Família 🎉</h1>
+                <p class="subtitle">Comemorando os 8 meses do nosso pequeno tesouro!</p>
+            </div>
+            
+            <div class="genie-container">
+                <div class="genie">
+                    <div class="genie-face">
+                        <div class="eyes">
+                            <div class="eye left"></div>
+                            <div class="eye right"></div>
+                        </div>
+                        <div class="mouth"></div>
+                    </div>
+                    <div class="genie-body"></div>
+                </div>
+            </div>
+            
+            <div class="welcome-text">
+                <p>Olá! Eu sou o Gui! 👶✨</p>
+                <p>Sou o <strong>Gênio Bebê da Família</strong> e posso descobrir quem está brincando comigo agora!</p>
+                <p>Vou fazer algumas perguntinhas para te reconhecer e depois vou falar quem você é pra mim! 🤔💕</p>
+                <p><strong>Será que eu consigo descobrir quem é você?</strong> 😄</p>
+            </div>
+            
+            <button id="start-game" class="btn-primary">
+                🎮 Vamos Começar a Brincadeira!
+            </button>
+        </div>
+
+        <!-- Tela do Jogo -->
+        <div id="game-screen" class="screen">
+            <div class="header">
+                <h2 class="game-title">🔮 Deixe-me descobrir quem é você...</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <p class="question-counter">Pergunta <span id="current-question">1</span> de <span id="total-questions">20</span></p>
+            </div>
+
+            <div class="genie-container small">
+                <div class="genie thinking">
+                    <div class="genie-face">
+                        <div class="eyes">
+                            <div class="eye left"></div>
+                            <div class="eye right"></div>
+                        </div>
+                        <div class="mouth"></div>
+                    </div>
+                    <div class="genie-body"></div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <h3 id="question-text">Carregando pergunta...</h3>
+            </div>
+
+            <div class="answers-container">
+                <button class="answer-btn" data-answer="sim">
+                    👍 Sim
+                </button>
+                <button class="answer-btn" data-answer="nao">
+                    👎 Não
+                </button>
+                <button class="answer-btn" data-answer="nao-sei">
+                    🤷‍♀️ Não sei
+                </button>
+                <button class="answer-btn" data-answer="provavelmente">
+                    🤔 Provavelmente
+                </button>
+                <button class="answer-btn" data-answer="provavelmente-nao">
+                    😐 Provavelmente não
+                </button>
+            </div>
+        </div>
+
+        <!-- Tela de Resultado -->
+        <div id="result-screen" class="screen">
+            <div class="header">
+                <h2 class="result-title">🎯 Eu acho que sei!</h2>
+            </div>
+
+            <div class="genie-container">
+                <div class="genie excited">
+                    <div class="genie-face">
+                        <div class="eyes">
+                            <div class="eye left"></div>
+                            <div class="eye right"></div>
+                        </div>
+                        <div class="mouth happy"></div>
+                    </div>
+                    <div class="genie-body"></div>
+                </div>
+            </div>
+
+            <div class="guess-container">
+                <h3>Eu sei quem você é!</h3>
+                <div class="guess-card">
+                    <h2 id="guess-name">Nome da Pessoa</h2>
+                    <p id="guess-description">Resposta carinhosa do Gui</p>
+                </div>
+            </div>
+
+            <div class="result-buttons">
+                <button id="correct-guess" class="btn-success">
+                    🎉 Acertou! Você me reconheceu!
+                </button>
+                <button id="wrong-guess" class="btn-secondary">
+                    😅 Errou! Me ensina quem você é?
+                </button>
+            </div>
+        </div>
+
+        <!-- Tela de Sucesso -->
+        <div id="success-screen" class="screen">
+            <div class="celebration">
+                <h1>🎊 YUHUUU! 🎊</h1>
+                <p>Eu consegui te reconhecer! Sou muito esperto! 😄</p>
+                <p>Quer brincar de novo? Chama mais gente da família! 👨‍👩‍👧‍👦</p>
+            </div>
+            
+            <button id="play-again" class="btn-primary">
+                🔄 Jogar Novamente
+            </button>
+        </div>
+
+        <!-- Tela de Adicionar Pessoa -->
+        <div id="add-person-screen" class="screen">
+            <div class="header">
+                <h2>🤗 Ops! Não consegui te reconhecer...</h2>
+                <p>Me ensina quem você é? Assim da próxima vez eu vou saber! 😊</p>
+            </div>
+
+            <div class="add-person-form">
+                <label for="person-name">Como eu devo te chamar?</label>
+                <input type="text" id="person-name" placeholder="Ex: Tio João, Amiga da mamãe...">
+                
+                <label for="person-description">O que eu devo falar quando for você?</label>
+                <textarea id="person-description" placeholder="Ex: Você é meu tio João! O tio mais legal que sempre me faz rir! 😄"></textarea>
+                
+                <div class="form-buttons">
+                    <button id="add-person" class="btn-primary">
+                        ➕ Me Ensinar Quem É!
+                    </button>
+                    <button id="skip-add" class="btn-secondary">
+                        ⏭️ Deixa pra Depois
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

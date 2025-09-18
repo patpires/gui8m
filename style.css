@@ -1,0 +1,694 @@
+/* Reset e configurações básicas */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animação de fundo com estrelas */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: sparkle 20s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes sparkle {
+    from { transform: translateX(0); }
+    to { transform: translateX(200px); }
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Telas do jogo */
+.screen {
+    display: none;
+    width: 100%;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    padding: 40px 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    animation: slideIn 0.6s ease-out;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Cabeçalho */
+.header {
+    margin-bottom: 30px;
+}
+
+.title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.5rem;
+    color: #4a5568;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #718096;
+    font-weight: 300;
+}
+
+.game-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: #4a5568;
+    margin-bottom: 20px;
+}
+
+.result-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: #38a169;
+    margin-bottom: 20px;
+}
+
+/* Barra de progresso */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #48bb78, #38a169);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    box-shadow: 0 2px 4px rgba(56, 161, 105, 0.3);
+}
+
+.question-counter {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-bottom: 20px;
+}
+
+/* Gênio */
+.genie-container {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.genie-container.small {
+    margin: 20px 0;
+}
+
+.genie {
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.genie-face {
+    width: 120px;
+    height: 120px;
+    background-image: url('genie-baby.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    position: relative;
+    border: 4px solid #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.genie-container.small .genie-face {
+    width: 80px;
+    height: 80px;
+}
+
+/* Manter os olhos invisíveis mas funcionais para animações */
+.eyes {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.genie-container.small .eyes {
+    gap: 10px;
+    top: 30%;
+}
+
+.eye {
+    width: 12px;
+    height: 12px;
+    background: transparent;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.genie-container.small .eye {
+    width: 8px;
+    height: 8px;
+}
+
+.mouth {
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 10px;
+    border: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.mouth.happy {
+    border: none;
+    opacity: 0;
+}
+
+.genie-body {
+    width: 80px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 40px 40px 0 0;
+    margin: 0 auto;
+    border: 3px solid #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+}
+
+.genie-container.small .genie-body {
+    width: 60px;
+    height: 40px;
+}
+
+/* Animações do gênio */
+.genie.thinking .genie-face {
+    animation: think 1s ease-in-out infinite;
+}
+
+@keyframes think {
+    0%, 100% { transform: rotate(-2deg) translateY(0px) scale(1); }
+    50% { transform: rotate(2deg) translateY(-5px) scale(1.02); }
+}
+
+.genie.excited .genie-face {
+    animation: excited 0.5s ease-in-out infinite;
+}
+
+@keyframes excited {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.05) rotate(-2deg); }
+    75% { transform: scale(1.05) rotate(2deg); }
+}
+
+/* Efeito de brilho quando pensando */
+.genie.thinking .genie-face::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: glow-pulse 1s ease-in-out infinite;
+    z-index: -1;
+}
+
+@keyframes glow-pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+/* Texto de boas-vindas */
+.welcome-text {
+    margin: 30px 0;
+    line-height: 1.6;
+}
+
+.welcome-text p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #4a5568;
+}
+
+/* Container de perguntas */
+.question-container {
+    margin: 30px 0;
+    padding: 25px;
+    background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+    border-radius: 15px;
+    border: 2px solid #4fd1c7;
+}
+
+.question-container h3 {
+    font-size: 1.4rem;
+    color: #234e52;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Botões de resposta */
+.answers-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.answer-btn {
+    padding: 15px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.answer-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+}
+
+.answer-btn:active {
+    transform: translateY(0);
+}
+
+.answer-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.answer-btn:hover::before {
+    left: 100%;
+}
+
+/* Botões principais */
+.btn-primary {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    padding: 18px 35px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
+    margin: 20px 10px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+    margin: 10px;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(237, 137, 54, 0.3);
+    margin: 10px;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(237, 137, 54, 0.4);
+}
+
+/* Resultado */
+.guess-container {
+    margin: 30px 0;
+}
+
+.guess-container h3 {
+    font-size: 1.3rem;
+    color: #4a5568;
+    margin-bottom: 20px;
+}
+
+.guess-card {
+    background: linear-gradient(135deg, #fef5e7 0%, #fed7aa 100%);
+    border: 2px solid #f6ad55;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 20px 0;
+}
+
+.guess-card h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: #c05621;
+    margin-bottom: 10px;
+}
+
+.guess-card p {
+    font-size: 1.1rem;
+    color: #744210;
+    line-height: 1.5;
+}
+
+.result-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+/* Tela de celebração */
+.celebration {
+    margin: 30px 0;
+}
+
+.celebration h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    color: #38a169;
+    margin-bottom: 20px;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.celebration p {
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* Formulário de adicionar pessoa */
+.add-person-form {
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.add-person-form label {
+    display: block;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 8px;
+    margin-top: 20px;
+}
+
+.add-person-form input,
+.add-person-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.add-person-form input:focus,
+.add-person-form textarea:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.add-person-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .screen {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+    
+    .title {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .answers-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .answer-btn {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+    
+    .btn-primary {
+        padding: 15px 25px;
+        font-size: 1.1rem;
+    }
+    
+    .result-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .celebration h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Animações adicionais */
+@keyframes sparkleFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(1.5);
+    }
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-10px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(72, 187, 120, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(72, 187, 120, 0.8);
+    }
+}
+
+/* Efeitos de hover melhorados */
+.answer-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+    animation: glow 2s ease-in-out infinite;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* Efeito de carregamento */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Efeito de texto digitando */
+.typing::after {
+    content: '|';
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.8rem;
+    }
+    
+    .genie-face {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .genie-body {
+        width: 70px;
+        height: 50px;
+    }
+    
+    .question-container h3 {
+        font-size: 1.2rem;
+    }
+    
+    .welcome-text p {
+        font-size: 1rem;
+    }
+}
