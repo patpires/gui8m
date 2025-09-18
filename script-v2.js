@@ -1,5 +1,7 @@
-// Banco de dados da família  - VERSÃO MELHORADA
- 
+// Banco de dados da família Barbosa Pires Santa Bárbara - VERSÃO MELHORADA
+// Gui: Guilherme Barbosa Pires Santa Bárbara (8 meses)
+// Papai: Ciro Pires Santa Barbara  
+// Mamãe: Cristiane Barbosa de Paula Oliveira
 
 let familyDatabase = [
     {
@@ -21,7 +23,7 @@ let familyDatabase = [
     },
     {
         name: "Mamãe", 
-        guiResponse: "Você é a minha mamãe! 👩 A Cris mais carinhosa do universo! Te amo muito, mamãe! 💕",
+        guiResponse: "Você é a minha mamãe! 👩 A Cristiane mais carinhosa do universo! Te amo muito, mamãe! 💕",
         attributes: {
             genero: "feminino",
             idade: "adulta", 
@@ -37,8 +39,8 @@ let familyDatabase = [
         }
     },
     {
-        name: "Vovô Shangai",
-        guiResponse: "Você é meu vovô Shangai! 👴 Que saudade de Salvador! Quando você vem me visitar? 🌴💕",
+        name: "Vovô do Papai",
+        guiResponse: "Você é meu vovô do lado do papai! 👴 Que saudade de Salvador! Quando você vem me visitar? 🌴💕",
         attributes: {
             genero: "masculino",
             idade: "idoso",
@@ -46,7 +48,7 @@ let familyDatabase = [
             lado_familia: "paterno",
             cidade: "salvador",
             personalidade: "sabio",
-            trabalha: "sim",
+            trabalha: "nao",
             mora_aqui: "nao",
             cuida_de_mim: "nao",
             brinca_comigo: "sim",
@@ -54,33 +56,16 @@ let familyDatabase = [
         }
     },
     {
-        name: "Vovó Administradora",
-        guiResponse: "Você é minha vovó especial! 👵 A vovó que criou este joguinho para mim e cuida de tudo! Te amo, vovó! 💕🎮",
+        name: "Vovó do Papai",
+        guiResponse: "Você é minha vovó do lado do papai! 👵 A vovó de Salvador que faz os melhores quitutes! 🍪💕",
         attributes: {
             genero: "feminino",
             idade: "idosa",
             parentesco: "avo",
             lado_familia: "paterno", 
             cidade: "salvador",
-            personalidade: "tecnologica",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "sim",
-            frequencia_visita: "moderada"
-        }
-    },
-      {
-        name: "Vovô Shangai",
-        guiResponse: "Você é meu vovô Shangai! 👴 Que saudade de Salvador! Quando você vem me visitar? 🌴💕",
-        attributes: {
-            genero: "masculino",
-            idade: "idoso",
-            parentesco: "avo",
-            lado_familia: "paterno",
-            cidade: "salvador",
-            personalidade: "sabio",
-            trabalha: "sim",
+            personalidade: "doce",
+            trabalha: "nao",
             mora_aqui: "nao",
             cuida_de_mim: "nao",
             brinca_comigo: "sim",
@@ -88,42 +73,25 @@ let familyDatabase = [
         }
     },
     {
-        name: "Biza",
-        guiResponse: "Você é minha Biza! 👵 A Biza que me deixa muito feliz! 🍪💕",
+        name: "Vovô da Mamãe",
+        guiResponse: "Você é meu vovô do lado da mamãe! 👴 O vovô de Salvador que sempre me manda beijinhos! 😘💕",
         attributes: {
-            genero: "feminino",
-            idade: "idosa",
-            parentesco: "bizavó",
-            lado_familia: "materno", 
+            genero: "masculino",
+            idade: "idoso",
+            parentesco: "avo",
+            lado_familia: "materno",
             cidade: "salvador",
-            personalidade: "alegre",
+            personalidade: "carinhoso",
             trabalha: "nao",
             mora_aqui: "nao",
             cuida_de_mim: "nao",
             brinca_comigo: "sim",
-            frequencia_visita: "rara"
+            frequencia_visita: "pouco"
         }
     },
     {
-        name: "Bizo",
-        guiResponse: "Você é meu Bizo! 👴 O Bizo que sempre me manda beijinhos! 😘💕",
-        attributes: {
-            genero: "masculino",
-            idade: "idoso",
-            parentesco: "bizavô",
-            lado_familia: "materno",
-            cidade: "salvador",
-            personalidade: "carinhoso",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "sim",
-            frequencia_visita: "rara"
-        }
-    },
-    {
-        name: "Vovó Ana",
-        guiResponse: "Você é minha vovó Ana! 👵 A vovó mais que especial! Que saudade! 🌴💕",
+        name: "Vovó da Mamãe",
+        guiResponse: "Você é minha vovó do lado da mamãe! 👵 A vovó mais especial de Salvador! Que saudade! 🌴💕",
         attributes: {
             genero: "feminino",
             idade: "idosa",
@@ -135,12 +103,12 @@ let familyDatabase = [
             mora_aqui: "nao",
             cuida_de_mim: "nao",
             brinca_comigo: "sim",
-            frequencia_visita: "moderada"
+            frequencia_visita: "pouco"
         }
     },
     {
-        name: "Tio Theo",
-        guiResponse: "Você é meu tio Theo! 👨 O tio de Salvador que sempre me faz rir nas videochamadas! 📱😄",
+        name: "Tio do Papai",
+        guiResponse: "Você é meu tio do lado do papai! 👨 O tio de Salvador que sempre me faz rir nas videochamadas! 📱😄",
         attributes: {
             genero: "masculino",
             idade: "adulto",
@@ -156,8 +124,8 @@ let familyDatabase = [
         }
     },
     {
-        name: "Tia Eva",
-        guiResponse: "Você é minha tia Eva! 👩 A tia de Salvador que sempre pergunta como eu estou! 💕",
+        name: "Tia do Papai",
+        guiResponse: "Você é minha tia do lado do papai! 👩 A tia de Salvador que sempre pergunta como eu estou! 💕",
         attributes: {
             genero: "feminino",
             idade: "adulta",
@@ -173,25 +141,25 @@ let familyDatabase = [
         }
     },
     {
-        name: "Tio Júnior",
-        guiResponse: "Você é meu tio Júnior! 👨 O tio de Salvador que adora minhas fotos! 📸🌴",
+        name: "Tio da Mamãe",
+        guiResponse: "Você é meu tio do lado da mamãe! 👨 O tio de Salvador que manda fotos lindas da cidade! 📸🌴",
         attributes: {
             genero: "masculino",
             idade: "adulto",
             parentesco: "tio",
             lado_familia: "materno",
             cidade: "salvador",
-            personalidade: "gentil",
+            personalidade: "fotografo",
             trabalha: "sim",
             mora_aqui: "nao",
             cuida_de_mim: "nao",
             brinca_comigo: "sim",
-            frequencia_visita: "rara"
+            frequencia_visita: "pouco"
         }
     },
     {
-        name: "TiVó",
-        guiResponse: "Você é minha Tivó! 👩 A titia  que sempre liga para saber de mim! 📞💕",
+        name: "Tia da Mamãe",
+        guiResponse: "Você é minha tia do lado da mamãe! 👩 A tia de Salvador que sempre liga para saber de mim! 📞💕",
         attributes: {
             genero: "feminino",
             idade: "adulta",
@@ -203,24 +171,7 @@ let familyDatabase = [
             mora_aqui: "nao",
             cuida_de_mim: "nao",
             brinca_comigo: "sim",
-            frequencia_visita: "rara"
-        }
-    },
-     {
-        name: "TiVó",
-        guiResponse: "Você é minha Tivó! 👩 A titia  que sempre liga para saber de mim! 📞💕",
-        attributes: {
-            genero: "feminino",
-            idade: "idosa",
-            parentesco: "tia",
-            lado_familia: "paterno",
-            cidade: "salvador",
-            personalidade: "atenciosa",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "sim",
-            frequencia_visita: "rara"
+            frequencia_visita: "pouco"
         }
     },
     {
@@ -234,24 +185,7 @@ let familyDatabase = [
             cidade: "sao-paulo",
             personalidade: "especial",
             trabalha: "sim",
-            mora_aqui: "sim",
-            cuida_de_mim: "nao",
-            brinca_comigo: "nao",
-            frequencia_visita: "frequente"
-        }
-    },
-     {
-        name: "Amigo da Mamãe",
-        guiResponse: "Você é um amigo especial da minha mamãe! 👩‍🤝‍👩 Que bom que trabalham juntas e você me conhece! 💕",
-        attributes: {
-            genero: "feminino",
-            idade: "adulta",
-            parentesco: "amigo",
-            lado_familia: "amigo",
-            cidade: "sao-paulo",
-            personalidade: "especial",
-            trabalha: "sim",
-            mora_aqui: "sim",
+            mora_aqui: "nao",
             cuida_de_mim: "nao",
             brinca_comigo: "nao",
             frequencia_visita: "frequente"
@@ -268,148 +202,30 @@ let familyDatabase = [
             cidade: "sao-paulo",
             personalidade: "legal",
             trabalha: "sim",
-            mora_aqui: "sim",
+            mora_aqui: "nao",
             cuida_de_mim: "nao",
             brinca_comigo: "nao",
-            frequencia_visita: "pouco"
+            frequencia_visita: "frequente"
         }
     },
     {
-        name: "Amigas em geral",
-        guiResponse: "Você é uma pessoa especial! E é uma amiga fiel💕🎮",
+        name: "Vovó Administradora",
+        guiResponse: "Você é minha vovó especial! 👵 A vovó que criou este joguinho para mim e cuida de tudo! Te amo, vovó! 💕🎮",
         attributes: {
             genero: "feminino",
-            idade: "adulta",
-            parentesco: "amiga",
-            lado_familia: "materna",
+            idade: "idosa",
+            parentesco: "avo",
+            lado_familia: "especial",
             cidade: "sao-paulo",
-            personalidade: "fiel",
+            personalidade: "tecnologica",
             trabalha: "sim",
             mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "nao",
-            frequencia_visita: "rara"
-            },
-    {
-        name: "Amigos em geral",
-        guiResponse: "Você é uma pessoa especial! E é um amigo fiel💕🎮",
-        attributes: {
-            genero: "masculino",
-            idade: "adulta",
-            parentesco: "amigo",
-            lado_familia: "materna",
-            cidade: "sao-paulo",
-            personalidade: "fiel",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "nao",
-            frequencia_visita: "rara"
-            }
-   ,
-    {
-        name: "Amigas em geral",
-        guiResponse: "Você é uma pessoa especial! E é uma amiga fiel💕🎮",
-        attributes: {
-            genero: "feminino",
-            idade: "adulta",
-            parentesco: "amiga",
-            lado_familia: "paterna",
-            cidade: "sao-paulo",
-            personalidade: "fiel",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "nao",
-            frequencia_visita: "rara"
-            },
-    {
-        name: "Amigos em geral",
-        guiResponse: "Você é uma pessoa especial! E é um amigo fiel💕🎮",
-        attributes: {
-            genero: "masculino",
-            idade: "adulta",
-            parentesco: "amigo",
-            lado_familia: "paterna",
-            cidade: "sao-paulo",
-            personalidade: "fiel",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "nao",
-            frequencia_visita: "rara"
-            },
-
-   {
-        name: "Prima",
-        guiResponse: "Você é minha priminha especial!💕🎮",
-        attributes: {
-            genero: "feminino",
-            idade: "adulta",
-            parentesco: "prima",
-            lado_familia: "materna",
-            cidade: "sao-paulo",
-            personalidade: "fiel",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
+            cuida_de_mim: "sim",
             brinca_comigo: "sim",
-            frequencia_visita: "rara"
-            },
-    {
-        name: "Primo",
-        guiResponse: "Você é um priminho especial!💕🎮",
-        attributes: {
-            genero: "masculino",
-            idade: "adulta",
-            parentesco: "primo",
-            lado_familia: "materna",
-            cidade: "sao-paulo",
-            personalidade: "fiel",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "nao",
-            frequencia_visita: "rara"
-            }
-   ,
-     {
-        name: "Prima",
-        guiResponse: "Você é minha priminha especial!💕🎮",
-        attributes: {
-            genero: "feminino",
-            idade: "adulta",
-            parentesco: "prima",
-            lado_familia: "paterno",
-            cidade: "sao-paulo",
-            personalidade: "fiel",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "sim",
-            frequencia_visita: "rara"
-            },
-    {
-        name: "Primo",
-        guiResponse: "Você é um priminho especial!💕🎮",
-        attributes: {
-            genero: "masculino",
-            idade: "adulta",
-            parentesco: "primo",
-            lado_familia: "paterno",
-            cidade: "sao-paulo",
-            personalidade: "fiel",
-            trabalha: "sim",
-            mora_aqui: "nao",
-            cuida_de_mim: "nao",
-            brinca_comigo: "nao",
-            frequencia_visita: "rara"
-            }
-   
-         
-                     
+            frequencia_visita: "frequente"
+        }
+    }
 ];
-
 
 // Perguntas otimizadas com novos atributos
 const questions = [
