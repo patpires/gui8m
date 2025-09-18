@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhador da Família - Gui 8 Meses</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .genie {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: url('genie-baby.png') center/cover;
+            border: 5px solid #ffd700;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .subtitle {
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .question-box {
+            background: #e6fffa;
+            border: 2px solid #4fd1c7;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .answer-btn {
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .answer-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .result-box {
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .progress {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tela de Boas-vindas -->
+        <div id="welcome-screen">
+            <h1>🎉 Adivinhador da Família 🎉</h1>
+            <p class="subtitle">Comemorando os 8 meses do nosso pequeno tesouro!</p>
+            
+            <div class="genie"></div>
+            
+            <div class="intro">
+                <p><strong>Olá! Eu sou o Gui! 👶✨</strong></p>
+                <p>Sou o <strong>Gênio Bebê da Família</strong> e posso descobrir quem está brincando comigo agora!</p>
+                <p>Vou fazer algumas perguntinhas para te reconhecer e depois vou falar quem você é pra mim! 🤔💕</p>
+                <p><strong>Será que eu consigo descobrir quem é você?</strong> 😄</p>
+            </div>
+            
+            <button class="btn" onclick="startGame()">🎮 Vamos Começar a Brincadeira!</button>
+        </div>
+
+        <!-- Tela do Jogo -->
+        <div id="game-screen" class="hidden">
+            <h2>🔮 Deixe-me descobrir quem é você...</h2>
+            
+            <div class="progress">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <p>Pergunta <span id="current-question">1</span> de <span id="total-questions">8</span></p>
+            
+            <div class="genie"></div>
+            
+            <div class="question-box">
+                <h3 id="question-text">Carregando pergunta...</h3>
+            </div>
+            
+            <div>
+                <button class="answer-btn" onclick="answerQuestion('sim')">👍 Sim</button>
+                <button class="answer-btn" onclick="answerQuestion('nao')">👎 Não</button>
+                <button class="answer-btn" onclick="answerQuestion('nao-sei')">🤷‍♀️ Não sei</button>
+                <button class="answer-btn" onclick="answerQuestion('provavelmente')">🤔 Provavelmente</button>
+                <button class="answer-btn" onclick="answerQuestion('provavelmente-nao')">😐 Provavelmente não</button>
+            </div>
+        </div>
+
+        <!-- Tela de Resultado -->
+        <div id="result-screen" class="hidden">
+            <h2>🎯 Eu acho que sei!</h2>
+            
+            <div class="genie"></div>
+            
+            <div class="result-box">
+                <h3>Eu sei quem você é!</h3>
+                <h2 id="guess-name">Nome da Pessoa</h2>
+                <p id="guess-description">Resposta carinhosa do Gui</p>
+            </div>
+            
+            <button class="btn" onclick="correctGuess()">✅ Acertou!</button>
+            <button class="btn" onclick="wrongGuess()">❌ Errou</button>
+        </div>
+
+        <!-- Tela de Sucesso -->
+        <div id="success-screen" class="hidden">
+            <h2>🎊 YUHUUU! 🎊</h2>
+            
+            <div class="genie"></div>
+            
+            <div class="result-box">
+                <p>Eu consegui te reconhecer! Sou muito esperto! 😄</p>
+                <p>Quer brincar de novo? Chama mais gente da família! 👨‍👩‍👧‍👦</p>
+            </div>
+            
+            <button class="btn" onclick="playAgain()">🎮 Jogar Novamente</button>
+        </div>
+
+        <!-- Tela de Adicionar Pessoa -->
+        <div id="add-person-screen" class="hidden">
+            <h2>🤗 Ops! Não consegui te reconhecer...</h2>
+            
+            <div class="genie"></div>
+            
+            <div class="result-box">
+                <p>Me ensina quem você é? Assim da próxima vez eu vou saber! 😊</p>
+                
+                <input type="text" id="person-name" placeholder="Como eu devo te chamar?" style="width: 100%; padding: 10px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px;">
+                
+                <textarea id="person-description" placeholder="O que eu devo falar quando for você?" style="width: 100%; padding: 10px; margin: 10px 0; border: 2px solid #ddd; border-radius: 10px; height: 80px; resize: vertical;"></textarea>
+            </div>
+            
+            <button class="btn" onclick="addPerson()">➕ Ensinar o Gui</button>
+            <button class="btn" onclick="skipAdd()">⏭️ Pular</button>
+        </div>
+    </div>
+
+    <script>
+        // Banco de dados da família
+        const familyDatabase = [
+            {
+                name: "Papai",
+                guiResponse: "Você é o meu papai! O Ciro mais forte e corajoso do mundo! Te amo, papai!",
+                attributes: {
+                    genero: "masculino",
+                    idade: "adulto",
+                    parentesco: "pai",
+                    lado_familia: "nucleo",
+                    cidade: "sao-paulo",
+                    mora_aqui: "sim",
+                    cuida_de_mim: "sim"
+                }
+            },
+            {
+                name: "Mamãe", 
+                guiResponse: "Você é a minha mamãe! A Cristiane mais carinhosa do universo! Te amo muito, mamãe!",
+                attributes: {
+                    genero: "feminino",
+                    idade: "adulta", 
+                    parentesco: "mae",
+                    lado_familia: "nucleo",
+                    cidade: "sao-paulo",
+                    mora_aqui: "sim",
+                    cuida_de_mim: "sim"
+                }
+            },
+            {
+                name: "Vovô do Papai",
+                guiResponse: "Você é meu vovô do lado do papai! Que saudade de Salvador! Quando você vem me visitar?",
+                attributes: {
+                    genero: "masculino",
+                    idade: "idoso",
+                    parentesco: "avo",
+                    lado_familia: "paterno",
+                    cidade: "salvador",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao"
+                }
+            },
+            {
+                name: "Vovó do Papai",
+                guiResponse: "Você é minha vovó do lado do papai! A vovó de Salvador que faz os melhores quitutes!",
+                attributes: {
+                    genero: "feminino",
+                    idade: "idosa",
+                    parentesco: "avo",
+                    lado_familia: "paterno", 
+                    cidade: "salvador",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao"
+                }
+            },
+            {
+                name: "Vovó Administradora",
+                guiResponse: "Você é minha vovó especial! A vovó que criou este joguinho para mim e cuida de tudo! Te amo, vovó!",
+                attributes: {
+                    genero: "feminino",
+                    idade: "idosa",
+                    parentesco: "avo",
+                    lado_familia: "especial",
+                    cidade: "sao-paulo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "sim"
+                }
+            }
+        ];
+
+        // Perguntas
+        const questions = [
+            {
+                text: "Você mora em São Paulo como eu?",
+                attribute: "cidade",
+                value: "sao-paulo"
+            },
+            {
+                text: "Você é do sexo masculino?",
+                attribute: "genero",
+                value: "masculino"
+            },
+            {
+                text: "Você é meu papai ou minha mamãe?",
+                attribute: "parentesco",
+                value: "pai"
+            },
+            {
+                text: "Você é meu avô ou minha avó?",
+                attribute: "parentesco",
+                value: "avo"
+            },
+            {
+                text: "Você mora na mesma casa que eu?",
+                attribute: "mora_aqui",
+                value: "sim"
+            },
+            {
+                text: "Você cuida de mim todos os dias?",
+                attribute: "cuida_de_mim", 
+                value: "sim"
+            }
+        ];
+
+        // Estado do jogo
+        let gameState = {
+            currentQuestionIndex: 0,
+            possiblePeople: [...familyDatabase],
+            askedQuestions: [],
+            userAnswers: {}
+        };
+
+        function showScreen(screenName) {
+            const screens = ['welcome-screen', 'game-screen', 'result-screen', 'success-screen', 'add-person-screen'];
+            screens.forEach(screen => {
+                document.getElementById(screen).classList.add('hidden');
+            });
+            document.getElementById(screenName).classList.remove('hidden');
+        }
+
+        function startGame() {
+            gameState = {
+                currentQuestionIndex: 0,
+                possiblePeople: [...familyDatabase],
+                askedQuestions: [],
+                userAnswers: {}
+            };
+            showScreen('game-screen');
+            askQuestion();
+        }
+
+        function updateProgress() {
+            const progress = (gameState.currentQuestionIndex / 6) * 100;
+            document.getElementById('progress-fill').style.width = Math.min(progress, 100) + '%';
+            document.getElementById('current-question').textContent = gameState.currentQuestionIndex + 1;
+        }
+
+        function askQuestion() {
+            if (gameState.possiblePeople.length <= 1 || gameState.currentQuestionIndex >= 6) {
+                showGuess();
+                return;
+            }
+
+            const questionIndex = gameState.currentQuestionIndex;
+            if (questionIndex < questions.length) {
+                document.getElementById('question-text').textContent = questions[questionIndex].text;
+                updateProgress();
+            } else {
+                showGuess();
+            }
+        }
+
+        function answerQuestion(answer) {
+            const questionIndex = gameState.currentQuestionIndex;
+            const question = questions[questionIndex];
+            
+            // Filtrar pessoas baseado na resposta
+            if (answer === 'sim') {
+                gameState.possiblePeople = gameState.possiblePeople.filter(person => {
+                    if (question.attribute === "parentesco" && question.value === "pai") {
+                        return person.attributes[question.attribute] === "pai" || person.attributes[question.attribute] === "mae";
+                    }
+                    return person.attributes[question.attribute] === question.value;
+                });
+            } else if (answer === 'nao') {
+                gameState.possiblePeople = gameState.possiblePeople.filter(person => {
+                    if (question.attribute === "parentesco" && question.value === "pai") {
+                        return person.attributes[question.attribute] !== "pai" && person.attributes[question.attribute] !== "mae";
+                    }
+                    return person.attributes[question.attribute] !== question.value;
+                });
+            }
+            
+            gameState.currentQuestionIndex++;
+            
+            setTimeout(() => {
+                askQuestion();
+            }, 500);
+        }
+
+        function showGuess() {
+            let guess;
+            if (gameState.possiblePeople.length >= 1) {
+                guess = gameState.possiblePeople[0];
+            } else {
+                guess = familyDatabase[0]; // Fallback
+            }
+            
+            document.getElementById('guess-name').textContent = guess.name;
+            document.getElementById('guess-description').textContent = guess.guiResponse;
+            showScreen('result-screen');
+        }
+
+        function correctGuess() {
+            showScreen('success-screen');
+        }
+
+        function wrongGuess() {
+            showScreen('add-person-screen');
+        }
+
+        function playAgain() {
+            showScreen('welcome-screen');
+        }
+
+        function addPerson() {
+            const name = document.getElementById('person-name').value.trim();
+            const description = document.getElementById('person-description').value.trim();
+            
+            if (name && description) {
+                alert('Obrigado! Agora eu conheço ' + name + '! Da próxima vez vou conseguir reconhecer!');
+                document.getElementById('person-name').value = '';
+                document.getElementById('person-description').value = '';
+                showScreen('welcome-screen');
+            } else {
+                alert('Por favor, me conte o nome e como eu devo responder quando for essa pessoa!');
+            }
+        }
+
+        function skipAdd() {
+            showScreen('welcome-screen');
+        }
+    </script>
+</body>
+</html>
