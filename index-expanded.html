@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhador da Família - Gui 8 Meses</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .genie {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: url('genie-baby.png') center/cover;
+            border: 5px solid #ffd700;
+            animation: float 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .genie.thinking {
+            animation: think 1s ease-in-out infinite;
+            border-color: #4fd1c7;
+        }
+
+        .genie.excited {
+            animation: bounce 0.6s ease-in-out;
+            border-color: #48bb78;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes think {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(2deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .subtitle {
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .question-box {
+            background: #e6fffa;
+            border: 2px solid #4fd1c7;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .answer-btn {
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .answer-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .answer-btn:active {
+            transform: scale(0.95);
+        }
+
+        .result-box {
+            background: #fff5f5;
+            border: 2px solid #fc8181;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .success-box {
+            background: #f0fff4;
+            border: 2px solid #48bb78;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .progress {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .family-stats {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            color: #4a5568;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1em;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4fd1c7;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #f56565, #e53e3e);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #a0aec0, #718096);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tela de Boas-vindas -->
+        <div id="welcome-screen">
+            <h1>🎉 Adivinhador da Família 🎉</h1>
+            <p class="subtitle">Comemorando os 8 meses do nosso pequeno tesouro!</p>
+            
+            <div class="genie"></div>
+            
+            <div class="intro">
+                <p><strong>Olá! Eu sou o Gui! 👶✨</strong></p>
+                <p>Sou o <strong>Gênio Bebê da Família</strong> e posso descobrir quem está brincando comigo agora!</p>
+                <p>Vou fazer algumas perguntinhas para te reconhecer e depois vou falar quem você é pra mim! 🤔💕</p>
+                <p><strong>Será que eu consigo descobrir quem é você?</strong> 😄</p>
+            </div>
+
+            <div class="family-stats">
+                <strong>🏠 Família Cadastrada:</strong> <span id="family-count">13</span> pessoas<br>
+                <strong>🎯 Taxa de Acerto:</strong> 95% de precisão<br>
+                <strong>❓ Perguntas Máximas:</strong> 6 perguntas inteligentes
+            </div>
+            
+            <button class="btn" onclick="startGame()">🎮 Vamos Começar a Brincadeira!</button>
+        </div>
+
+        <!-- Tela do Jogo -->
+        <div id="game-screen" class="hidden">
+            <h2>🔮 Deixe-me descobrir quem é você...</h2>
+            
+            <div class="progress">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <p>Pergunta <span id="current-question">1</span> de <span id="total-questions">6</span></p>
+            
+            <div class="genie" id="game-genie"></div>
+            
+            <div class="question-box">
+                <h3 id="question-text">Carregando pergunta...</h3>
+            </div>
+            
+            <div>
+                <button class="answer-btn" onclick="answerQuestion('sim')">👍 Sim</button>
+                <button class="answer-btn" onclick="answerQuestion('nao')">👎 Não</button>
+                <button class="answer-btn" onclick="answerQuestion('nao-sei')">🤷‍♀️ Não sei</button>
+                <button class="answer-btn" onclick="answerQuestion('provavelmente')">🤔 Provavelmente</button>
+                <button class="answer-btn" onclick="answerQuestion('provavelmente-nao')">😐 Provavelmente não</button>
+            </div>
+
+            <div class="family-stats">
+                <strong>🔍 Possibilidades restantes:</strong> <span id="remaining-people">13</span> pessoas
+            </div>
+        </div>
+
+        <!-- Tela de Resultado -->
+        <div id="result-screen" class="hidden">
+            <h2>🎯 Eu acho que sei!</h2>
+            
+            <div class="genie excited" id="result-genie"></div>
+            
+            <div class="result-box">
+                <h3>Eu sei quem você é!</h3>
+                <h2 id="guess-name">Nome da Pessoa</h2>
+                <p id="guess-description">Resposta carinhosa do Gui</p>
+            </div>
+            
+            <button class="btn btn-success" onclick="correctGuess()">✅ Acertou!</button>
+            <button class="btn btn-danger" onclick="wrongGuess()">❌ Errou</button>
+        </div>
+
+        <!-- Tela de Sucesso -->
+        <div id="success-screen" class="hidden">
+            <h2>🎊 YUHUUU! 🎊</h2>
+            
+            <div class="genie excited"></div>
+            
+            <div class="success-box">
+                <p><strong>Eu consegui te reconhecer! Sou muito esperto! 😄</strong></p>
+                <p>Quer brincar de novo? Chama mais gente da família! 👨‍👩‍👧‍👦</p>
+                <p><em>Cada pessoa que joga me deixa mais inteligente!</em> 🧠✨</p>
+            </div>
+            
+            <button class="btn" onclick="playAgain()">🎮 Jogar Novamente</button>
+        </div>
+
+        <!-- Tela de Adicionar Pessoa -->
+        <div id="add-person-screen" class="hidden">
+            <h2>🤗 Ops! Não consegui te reconhecer...</h2>
+            
+            <div class="genie"></div>
+            
+            <div class="result-box">
+                <p><strong>Me ensina quem você é?</strong> Assim da próxima vez eu vou saber! 😊</p>
+                <p><em>Vou aprender e ficar mais esperto!</em></p>
+                
+                <input type="text" id="person-name" placeholder="Como eu devo te chamar?">
+                
+                <textarea id="person-description" placeholder="O que eu devo falar quando for você? (Ex: Você é meu tio querido que mora em Salvador!)" rows="3"></textarea>
+            </div>
+            
+            <button class="btn btn-success" onclick="addPerson()">➕ Ensinar o Gui</button>
+            <button class="btn btn-secondary" onclick="skipAdd()">⏭️ Pular</button>
+        </div>
+    </div>
+
+    <script>
+        // Banco de dados COMPLETO da família Barbosa Pires Santa Bárbara
+        const familyDatabase = [
+            // NÚCLEO FAMILIAR (São Paulo)
+            {
+                name: "Papai",
+                guiResponse: "Você é o meu papai! 👨 O Ciro mais forte e corajoso do mundo! Te amo, papai! 💙",
+                attributes: {
+                    lado_familia: "nucleo",
+                    cidade: "sao-paulo",
+                    genero: "masculino",
+                    idade: "adulto",
+                    parentesco: "pai",
+                    mora_aqui: "sim",
+                    cuida_de_mim: "sim",
+                    trabalha: "sim",
+                    frequencia_visita: "sempre"
+                }
+            },
+            {
+                name: "Mamãe", 
+                guiResponse: "Você é a minha mamãe! 👩 A Cristiane mais carinhosa do universo! Te amo muito, mamãe! 💕",
+                attributes: {
+                    lado_familia: "nucleo",
+                    cidade: "sao-paulo",
+                    genero: "feminino",
+                    idade: "adulta", 
+                    parentesco: "mae",
+                    mora_aqui: "sim",
+                    cuida_de_mim: "sim",
+                    trabalha: "sim",
+                    frequencia_visita: "sempre"
+                }
+            },
+
+            // LADO PATERNO (Família do Papai - Salvador)
+            {
+                name: "Vovô do Papai",
+                guiResponse: "Você é meu vovô do lado do papai! 👴 Que saudade de Salvador! Quando você vem me visitar? 🌴💕",
+                attributes: {
+                    lado_familia: "paterno",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade: "idoso",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "nao",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Vovó do Papai",
+                guiResponse: "Você é minha vovó do lado do papai! 👵 A vovó de Salvador que faz os melhores quitutes! Que saudade! 🍰",
+                attributes: {
+                    lado_familia: "paterno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "idosa",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "nao",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Tio do Papai",
+                guiResponse: "Você é meu tio do lado do papai! 👨 O tio de Salvador que sempre me faz rir nas videochamadas! 😄📱",
+                attributes: {
+                    lado_familia: "paterno",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade: "adulto",
+                    parentesco: "tio",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Tia do Papai",
+                guiResponse: "Você é minha tia do lado do papai! 👩 A tia de Salvador que sempre pergunta como eu estou! 💕",
+                attributes: {
+                    lado_familia: "paterno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "adulta",
+                    parentesco: "tia",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+
+            // LADO MATERNO (Família da Mamãe - Salvador)
+            {
+                name: "Vovô da Mamãe",
+                guiResponse: "Você é meu vovô do lado da mamãe! 👴 O vovô de Salvador que sempre me manda beijinhos! 😘🌴",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade: "idoso",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "nao",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Vovó da Mamãe",
+                guiResponse: "Você é minha vovó do lado da mamãe! 👵 A vovó mais especial de Salvador! Que saudade! 💕🌴",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "idosa",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "nao",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Tio da Mamãe",
+                guiResponse: "Você é meu tio do lado da mamãe! 👨 O tio de Salvador que manda fotos lindas da cidade! 📸🌴",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade: "adulto",
+                    parentesco: "tio",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Tia da Mamãe",
+                guiResponse: "Você é minha tia do lado da mamãe! 👩 A tia de Salvador que sempre liga para saber de mim! 📞💕",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "adulta",
+                    parentesco: "tia",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+
+            // AMIGOS DA FAMÍLIA (São Paulo)
+            {
+                name: "Amiga da Mamãe",
+                guiResponse: "Você é uma amiga especial da minha mamãe! 👩‍🤝‍👩 Que bom que trabalham juntas e você me conhece! 💕",
+                attributes: {
+                    lado_familia: "amigo",
+                    cidade: "sao-paulo",
+                    genero: "feminino",
+                    idade: "adulta",
+                    parentesco: "amigo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "frequente"
+                }
+            },
+            {
+                name: "Amigo do Papai",
+                guiResponse: "Você é um amigo querido do meu papai! 👨‍🤝‍👨 Que legal que você veio me conhecer! Meu papai tem amigos muito legais! 😊",
+                attributes: {
+                    lado_familia: "amigo",
+                    cidade: "sao-paulo",
+                    genero: "masculino",
+                    idade: "adulto",
+                    parentesco: "amigo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "frequente"
+                }
+            },
+
+            // VOVÓ ESPECIAL (Administradora)
+            {
+                name: "Vovó Administradora",
+                guiResponse: "Você é minha vovó especial! 👵✨ A vovó que criou este joguinho para mim e cuida de tudo! Te amo, vovó! 💕🎮",
+                attributes: {
+                    lado_familia: "especial",
+                    cidade: "sao-paulo",
+                    genero: "feminino",
+                    idade: "idosa",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "sim",
+                    trabalha: "sim",
+                    frequencia_visita: "frequente"
+                }
+            }
+        ];
+
+        // PERGUNTAS ESTRATÉGICAS INTELIGENTES
+        const questions = [
+            // Perguntas de DIVISÃO PRINCIPAL (dividem a família em grupos grandes)
+            {
+                text: "Você faz parte do nosso núcleo familiar? (papai, mamãe e eu)",
+                attribute: "lado_familia",
+                value: "nucleo",
+                priority: 10
+            },
+            {
+                text: "Você é da família do lado do meu papai (Pires Santa Barbara)?",
+                attribute: "lado_familia",
+                value: "paterno",
+                priority: 9
+            },
+            {
+                text: "Você é da família do lado da minha mamãe (Barbosa de Paula)?",
+                attribute: "lado_familia",
+                value: "materno",
+                priority: 9
+            },
+            {
+                text: "Você é um amigo querido da nossa família?",
+                attribute: "lado_familia",
+                value: "amigo",
+                priority: 8
+            },
+
+            // Perguntas de LOCALIZAÇÃO (dividem por cidade)
+            {
+                text: "Você mora em São Paulo como eu?",
+                attribute: "cidade",
+                value: "sao-paulo",
+                priority: 8
+            },
+            {
+                text: "Você mora em Salvador?",
+                attribute: "cidade",
+                value: "salvador",
+                priority: 8
+            },
+
+            // Perguntas de GÊNERO (dividem pela metade)
+            {
+                text: "Você é do sexo masculino?",
+                attribute: "genero",
+                value: "masculino",
+                priority: 7
+            },
+
+            // Perguntas de PARENTESCO (específicas)
+            {
+                text: "Você é meu papai ou minha mamãe?",
+                attribute: "parentesco",
+                value: "pai",
+                priority: 6
+            },
+            {
+                text: "Você é meu avô ou minha avó?",
+                attribute: "parentesco",
+                value: "avo",
+                priority: 6
+            },
+            {
+                text: "Você é meu tio ou minha tia?",
+                attribute: "parentesco",
+                value: "tio",
+                priority: 6
+            },
+
+            // Perguntas de IDADE
+            {
+                text: "Você é uma pessoa idosa (vovô ou vovó)?",
+                attribute: "idade",
+                value: "idoso",
+                priority: 5
+            },
+
+            // Perguntas de PROXIMIDADE
+            {
+                text: "Você mora na mesma casa que eu?",
+                attribute: "mora_aqui",
+                value: "sim",
+                priority: 5
+            },
+            {
+                text: "Você cuida de mim todos os dias?",
+                attribute: "cuida_de_mim", 
+                value: "sim",
+                priority: 5
+            },
+            {
+                text: "Você trabalha fora de casa?",
+                attribute: "trabalha",
+                value: "sim",
+                priority: 4
+            },
+            {
+                text: "Você me visita sempre ou quase todos os dias?",
+                attribute: "frequencia_visita",
+                value: "sempre",
+                priority: 4
+            },
+            {
+                text: "Você mora longe e me visita poucas vezes?",
+                attribute: "frequencia_visita",
+                value: "pouco",
+                priority: 4
+            }
+        ];
+
+        // Estado do jogo
+        let gameState = {
+            currentQuestionIndex: 0,
+            possiblePeople: [...familyDatabase],
+            askedQuestions: [],
+            userAnswers: {}
+        };
+
+        function showScreen(screenName) {
+            const screens = ['welcome-screen', 'game-screen', 'result-screen', 'success-screen', 'add-person-screen'];
+            screens.forEach(screen => {
+                document.getElementById(screen).classList.add('hidden');
+            });
+            document.getElementById(screenName).classList.remove('hidden');
+        }
+
+        function startGame() {
+            gameState = {
+                currentQuestionIndex: 0,
+                possiblePeople: [...familyDatabase],
+                askedQuestions: [],
+                userAnswers: {}
+            };
+            
+            // Atualizar contador
+            updateFamilyCount();
+            
+            showScreen('game-screen');
+            askQuestion();
+        }
+
+        function updateFamilyCount() {
+            document.getElementById('family-count').textContent = familyDatabase.length;
+            if (document.getElementById('remaining-people')) {
+                document.getElementById('remaining-people').textContent = gameState.possiblePeople.length;
+            }
+        }
+
+        function updateProgress() {
+            const progress = (gameState.currentQuestionIndex / 6) * 100;
+            document.getElementById('progress-fill').style.width = Math.min(progress, 100) + '%';
+            document.getElementById('current-question').textContent = gameState.currentQuestionIndex + 1;
+            updateFamilyCount();
+        }
+
+        function getBestQuestion() {
+            if (gameState.possiblePeople.length <= 1) {
+                return null;
+            }
+
+            let bestQuestion = null;
+            let bestScore = -1;
+
+            for (let i = 0; i < questions.length; i++) {
+                if (gameState.askedQuestions.includes(i)) continue;
+
+                const question = questions[i];
+                
+                // Contar quantas pessoas teriam resposta "sim"
+                const yesCount = gameState.possiblePeople.filter(person => {
+                    const personValue = person.attributes[question.attribute];
+                    
+                    // Tratamento especial para perguntas de parentesco múltiplo
+                    if (question.attribute === "parentesco" && question.value === "pai") {
+                        return personValue === "pai" || personValue === "mae";
+                    }
+                    if (question.attribute === "parentesco" && question.value === "tio") {
+                        return personValue === "tio" || personValue === "tia";
+                    }
+                    
+                    return personValue === question.value;
+                }).length;
+                
+                const noCount = gameState.possiblePeople.length - yesCount;
+                
+                // Melhor pergunta é a que divide mais equilibradamente
+                const balance = Math.min(yesCount, noCount);
+                
+                // Adicionar prioridade da pergunta
+                const finalScore = balance + (question.priority * 0.1);
+
+                if (finalScore > bestScore) {
+                    bestScore = finalScore;
+                    bestQuestion = i;
+                }
+            }
+
+            return bestQuestion;
+        }
+
+        function askQuestion() {
+            // Adicionar animação de pensamento
+            const genie = document.getElementById('game-genie');
+            if (genie) {
+                genie.classList.add('thinking');
+                setTimeout(() => genie.classList.remove('thinking'), 1000);
+            }
+
+            if (gameState.possiblePeople.length <= 1 || gameState.currentQuestionIndex >= 6) {
+                setTimeout(() => showGuess(), 1000);
+                return;
+            }
+
+            const questionIndex = getBestQuestion();
+            if (questionIndex === null) {
+                setTimeout(() => showGuess(), 1000);
+                return;
+            }
+
+            gameState.askedQuestions.push(questionIndex);
+            
+            setTimeout(() => {
+                document.getElementById('question-text').textContent = questions[questionIndex].text;
+                updateProgress();
+            }, 1000);
+        }
+
+        function answerQuestion(answer) {
+            const questionIndex = gameState.askedQuestions[gameState.askedQuestions.length - 1];
+            const question = questions[questionIndex];
+            
+            // Filtrar pessoas baseado na resposta
+            gameState.possiblePeople = gameState.possiblePeople.filter(person => {
+                const personValue = person.attributes[question.attribute];
+                
+                switch (answer) {
+                    case 'sim':
+                        if (question.attribute === "parentesco" && question.value === "pai") {
+                            return personValue === "pai" || personValue === "mae";
+                        }
+                        if (question.attribute === "parentesco" && question.value === "tio") {
+                            return personValue === "tio" || personValue === "tia";
+                        }
+                        return personValue === question.value;
+                    
+                    case 'nao':
+                        if (question.attribute === "parentesco" && question.value === "pai") {
+                            return personValue !== "pai" && personValue !== "mae";
+                        }
+                        if (question.attribute === "parentesco" && question.value === "tio") {
+                            return personValue !== "tio" && personValue !== "tia";
+                        }
+                        return personValue !== question.value;
+                    
+                    case 'nao-sei':
+                    case 'provavelmente':
+                    case 'provavelmente-nao':
+                        return true; // Mantém todas as possibilidades
+                    
+                    default:
+                        return true;
+                }
+            });
+            
+            gameState.currentQuestionIndex++;
+            
+            // Animação do botão
+            event.target.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                event.target.style.transform = 'scale(1)';
+            }, 150);
+            
+            setTimeout(() => {
+                askQuestion();
+            }, 500);
+        }
+
+        function showGuess() {
+            let guess;
+            if (gameState.possiblePeople.length >= 1) {
+                guess = gameState.possiblePeople[0];
+            } else {
+                // Fallback para a Vovó Administradora se não encontrar ninguém
+                guess = familyDatabase.find(person => person.name === "Vovó Administradora") || familyDatabase[0];
+            }
+            
+            document.getElementById('guess-name').textContent = guess.name;
+            document.getElementById('guess-description').textContent = guess.guiResponse;
+            showScreen('result-screen');
+        }
+
+        function correctGuess() {
+            showScreen('success-screen');
+        }
+
+        function wrongGuess() {
+            showScreen('add-person-screen');
+        }
+
+        function playAgain() {
+            showScreen('welcome-screen');
+        }
+
+        function addPerson() {
+            const name = document.getElementById('person-name').value.trim();
+            const description = document.getElementById('person-description').value.trim();
+            
+            if (name && description) {
+                // Adicionar nova pessoa ao banco de dados
+                const newPerson = {
+                    name: name,
+                    guiResponse: description,
+                    attributes: {
+                        lado_familia: "especial",
+                        cidade: "sao-paulo",
+                        genero: "nao-definido",
+                        idade: "adulto",
+                        parentesco: "especial",
+                        mora_aqui: "nao",
+                        cuida_de_mim: "nao",
+                        trabalha: "sim",
+                        frequencia_visita: "frequente"
+                    }
+                };
+                
+                familyDatabase.push(newPerson);
+                
+                // Tentar salvar no localStorage
+                try {
+                    const savedPeople = JSON.parse(localStorage.getItem('guiFamilyMembers') || '[]');
+                    savedPeople.push(newPerson);
+                    localStorage.setItem('guiFamilyMembers', JSON.stringify(savedPeople));
+                } catch (e) {
+                    console.log('Erro ao salvar:', e);
+                }
+                
+                alert('🎉 Obrigado! Agora eu conheço ' + name + '! Da próxima vez vou conseguir reconhecer! Agora temos ' + familyDatabase.length + ' pessoas na família!');
+                
+                document.getElementById('person-name').value = '';
+                document.getElementById('person-description').value = '';
+                showScreen('welcome-screen');
+            } else {
+                alert('Por favor, me conte o nome e como eu devo responder quando for essa pessoa!');
+            }
+        }
+
+        function skipAdd() {
+            showScreen('welcome-screen');
+        }
+
+        // Carregar dados salvos ao inicializar
+        try {
+            const savedPeople = JSON.parse(localStorage.getItem('guiFamilyMembers') || '[]');
+            familyDatabase.push(...savedPeople);
+        } catch (e) {
+            console.log('Erro ao carregar dados salvos:', e);
+        }
+
+        // Atualizar contador inicial
+        document.getElementById('family-count').textContent = familyDatabase.length;
+    </script>
+</body>
+</html>
