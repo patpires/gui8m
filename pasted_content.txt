@@ -1,0 +1,238 @@
+let familyDatabase = [
+            // NÚCLEO FAMILIAR (São Paulo)
+            {
+                name: "Papai",
+                guiResponse: "Você é o meu papai! 👨 O Herói mais forte e corajoso do mundo! Te amo, papai! 💙",
+                attributes: {
+                    lado_familia: "nucleo",
+                    cidade: "sao-paulo",
+                    genero: "masculino",
+                    idade: "adulto",
+                    parentesco: "pai",
+                    mora_aqui: "sim",
+                    cuida_de_mim: "sim",
+                    trabalha: "sim",
+                    frequencia_visita: "sempre"
+                }
+            },
+            {
+                name: "Mamãe", 
+                guiResponse: "Você é a minha mamãe! 👩 A pessoa  mais carinhosa do universo! Te amo muito, mamãe! 💕",
+                attributes: {
+                    lado_familia: "nucleo",
+                    cidade: "sao-paulo",
+                    genero: "feminino",
+                    idade: "adulta", 
+                    parentesco: "mae",
+                    mora_aqui: "sim",
+                    cuida_de_mim: "sim",
+                    trabalha: "sim",
+                    frequencia_visita: "sempre"
+                }
+            },
+
+            // LADO PATERNO (Família do Papai - Salvador)
+            {
+                name: "Vovô Shangai",
+                guiResponse: "Você é meu vovô Shangai!  Que saudade de Salvador! Quando você vem me visitar? 🌴💕",
+                attributes: {
+                    lado_familia: "paterno",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade: "idoso",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Vovó Pat",
+                guiResponse: "Você é minha vovó Pat! Que saudade! 🍰",
+                attributes: {
+                    lado_familia: "paterno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "idosa",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Tio Theo",
+                guiResponse: "Você é meu tio Theo! 👨 O tio de Salvador que sempre me faz rir nas videochamadas! 😄📱",
+                attributes: {
+                    lado_familia: "paterno",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade: "adulto",
+                    parentesco: "tio",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Tia Eva",
+                guiResponse: "Você é minha tia Eva! 👩 A tia de Salvador que sempre pergunta como eu estou! 💕",
+                attributes: {
+                    lado_familia: "paterno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "adulta",
+                    parentesco: "tia",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+
+            // LADO MATERNO (Família da Mamãe - Salvador)
+            {
+                name: "Vovô Nildo",
+                guiResponse: "Você é meu vovô Nildo! O vovô de Salvador que sempre me manda beijinhos! 😘🌴",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade: "idoso",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "frequente"
+                }
+            },
+            {
+                name: "Vovó Ana",
+                guiResponse: "Você é minha vovó Ana!  A vovó mais especial de Salvador! Que saudade! 💕🌴",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "idosa",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "nao",
+                    frequencia_visita: "sempre"
+                }
+            },
+            {
+                name: "Tio Júnior",
+                guiResponse: "Você é meu tio Júnior! 👨 O tio de Salvador que gosta de minhas fotos! 📸🌴",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade: "adulto",
+                    parentesco: "tio",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+            {
+                name: "Tia Ana",
+                guiResponse: "Você é minha Tia Ana! 👩 A tia de Salvador que sempre liga para saber de mim! 📞💕",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "adulta",
+                    parentesco: "tia",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+ {
+                name: "Tia Avó",
+                guiResponse: "Você é minha Tia Avó! 👩 A tia de Salvador que sempre liga para saber de mim! 📞💕",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "adulta",
+                    parentesco: "tia",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+
+ {
+                name: "Bizavó",
+                guiResponse: "Você é minha Bizavó! 👩 A tia de Salvador que sempre liga para saber de mim! 📞💕",
+                attributes: {
+                    lado_familia: "materno",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade: "idosa",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            },
+
+            
+            // AMIGOS DA FAMÍLIA (São Paulo)
+            {
+                name: "Amiga da Mamãe",
+                guiResponse: "Você é uma amiga especial da minha mamãe! 👩‍🤝‍👩 Que bom que trabalham juntas e você me conhece! 💕",
+                attributes: {
+                    lado_familia: "amigo",
+                    cidade: "sao-paulo",
+                    genero: "feminino",
+                    idade: "adulta",
+                    parentesco: "amigo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "frequente"
+                }
+            },
+            {
+                name: "Amigo do Papai",
+                guiResponse: "Você é um amigo querido do meu papai! 👨‍🤝‍👨 Que legal que você veio me conhecer! Meu papai tem amigos muito legais! 😊",
+                attributes: {
+                    lado_familia: "amigo",
+                    cidade: "sao-paulo",
+                    genero: "masculino",
+                    idade: "adulto",
+                    parentesco: "amigo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "nao",
+                    trabalha: "sim",
+                    frequencia_visita: "frequente"
+                }
+            },
+
+            // VOVÓ ESPECIAL (Administradora)
+            {
+                name: "Vovó Pat",
+                guiResponse: "Você é minha vovó especial! 👵✨ A vovó que criou este joguinho para mim ! Te amo, vovó! 💕🎮",
+                attributes: {
+                    lado_familia: "especial",
+                    cidade: "sao-paulo",
+                    genero: "feminino",
+                    idade: "idosa",
+                    parentesco: "avo",
+                    mora_aqui: "nao",
+                    cuida_de_mim: "sim",
+                    trabalha: "sim",
+                    frequencia_visita: "pouco"
+                }
+            }
+        ];

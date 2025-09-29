@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhador da Família - Gui 8 Meses</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* PARTÍCULAS DE FUNDO */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float-particle 6s infinite linear;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ESTRELAS CINTILANTES */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 10;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .genie {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: url('genie-baby.png') center/cover;
+            border: 5px solid #ffd700;
+            animation: float 3s ease-in-out infinite;
+            transition: all 0.5s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .genie:hover {
+            transform: scale(1.05);
+            border-color: #4fd1c7;
+        }
+
+        .genie.thinking {
+            animation: think 1.5s ease-in-out infinite;
+            border-color: #4fd1c7;
+            box-shadow: 0 0 20px rgba(79, 209, 199, 0.5);
+        }
+
+        .genie.excited {
+            animation: bounce 0.8s ease-in-out 3;
+            border-color: #48bb78;
+            box-shadow: 0 0 30px rgba(72, 187, 120, 0.7);
+        }
+
+        .genie.magical {
+            animation: magical 2s ease-in-out infinite;
+            border-color: #9f7aea;
+            box-shadow: 0 0 25px rgba(159, 122, 234, 0.6);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes think {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(-2deg); }
+            75% { transform: scale(1.05) rotate(2deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        @keyframes magical {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-5deg); }
+            75% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* CONFETE */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        h1 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 5px rgba(72, 187, 120, 0.3); }
+            50% { text-shadow: 0 0 20px rgba(72, 187, 120, 0.6); }
+        }
+
+        .subtitle {
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .intro {
+            margin: 20px 0;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, #e6fffa, #b2f5ea);
+            border: 2px solid #4fd1c7;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            animation: questionPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes questionPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(79, 209, 199, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(79, 209, 199, 0.6); }
+        }
+
+        .answer-btn {
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .answer-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .answer-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .answer-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .answer-btn:active {
+            transform: scale(0.95);
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #fff5f5, #fed7d7);
+            border: 2px solid #fc8181;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            animation: resultGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes resultGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(252, 129, 129, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(252, 129, 129, 0.6); }
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            border: 2px solid #48bb78;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            animation: successGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes successGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(72, 187, 120, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(72, 187, 120, 0.6); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .progress {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #48bb78, #38a169, #68d391);
+            height: 100%;
+            width: 0%;
+            transition: width 0.8s ease;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .family-stats {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+            animation: statsFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes statsFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4fd1c7;
+            box-shadow: 0 0 10px rgba(79, 209, 199, 0.3);
+            transform: scale(1.02);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #f56565, #e53e3e);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #a0aec0, #718096);
+        }
+
+        /* SISTEMA DE APRENDIZADO */
+        .learning-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(72, 187, 120, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            z-index: 1000;
+            animation: slideInRight 0.5s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .learning-stats {
+            background: linear-gradient(135deg, #e6fffa, #b2f5ea);
+            border: 1px solid #4fd1c7;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.8em;
+            color: #2d3748;
+        }
+
+        .precision-indicator {
+            background: linear-gradient(135deg, #fff5f5, #fed7d7);
+            border: 2px solid #fc8181;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.85em;
+            color: #2d3748;
+            animation: precisionPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes precisionPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(252, 129, 129, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(252, 129, 129, 0.4); }
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .genie {
+                width: 100px;
+                height: 100px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .answer-btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PARTÍCULAS DE FUNDO -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- ESTRELAS CINTILANTES -->
+    <div class="stars" id="stars"></div>
+
+    <!-- CONFETE (inicialmente oculto) -->
+    <div class="confetti hidden" id="confetti"></div>
+
+    <!-- INDICADOR DE APRENDIZADO -->
+    <div class="learning-indicator hidden" id="learning-indicator">
+        🧠 Gui está aprendendo...
+    </div>
+
+    <div class="container">
+        <!-- Tela de Boas-vindas -->
+        <div id="welcome-screen">
+            <h1>🎉 Adivinhador da Família 🎉</h1>
+            <p class="subtitle">Comemorando os 8 meses do nosso pequeno tesouro!</p>
+            
+            <div class="genie magical" id="welcome-genie"></div>
+            
+            <div class="intro">
+                <p><strong>Olá! Eu sou o Gui! 👶✨</strong></p>
+                <p>Sou o <strong>Gênio Bebê da Família</strong> e posso descobrir quem está brincando comigo agora!</p>
+                <p>Agora eu conheço <strong>TODOS os segredos da família</strong>! 🕵️‍♂️</p>
+                <p><strong>Vou descobrir você com certeza!</strong> 😄</p>
+            </div>
+
+            <div class="family-stats">
+                <strong>🏠 Família Cadastrada:</strong> <span id="family-count">35</span> pessoas<br>
+                <strong>🎯 Taxa de Acerto:</strong> <span id="success-rate">99.9</span>% de precisão<br>
+                <strong>❓ Perguntas Máximas:</strong> 5 perguntas inteligentíssimas
+            </div>
+
+            <div class="precision-indicator">
+                <strong>🚀 NOVO: Sistema de Códigos Secretos!</strong><br>
+                🎯 <strong>Hobbies únicos</strong> - Craque em máquinas, K-POP, doces<br>
+                💼 <strong>Profissões específicas</strong> - Cardiologista, fotógrafo, enfermeiro<br>
+                🏢 <strong>Locais de trabalho</strong> - AGERSA, PGE, Studio A<br>
+                👥 <strong>Relacionamentos</strong> - As Anas, amigos de longa data<br>
+                🎮 <strong>Características únicas</strong> - Cada pessoa tem seu "código"
+            </div>
+
+            <div class="learning-stats">
+                <strong>🧠 Sistema de Aprendizado:</strong> <span id="learned-count">0</span> pessoas aprendidas<br>
+                <strong>🎮 Jogos Realizados:</strong> <span id="games-played">0</span> partidas<br>
+                <strong>🏆 Melhor Sequência:</strong> <span id="best-streak">0</span> acertos consecutivos
+            </div>
+            
+            <button class="btn" onclick="startGame()">🎮 Vamos Começar a Brincadeira!</button>
+        </div>
+
+        <!-- Tela do Jogo -->
+        <div id="game-screen" class="hidden">
+            <h2>🔮 Deixe-me descobrir quem é você...</h2>
+            
+            <div class="progress">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <p>Pergunta <span id="current-question">1</span> de <span id="total-questions">5</span></p>
+            
+            <div class="genie thinking" id="game-genie"></div>
+            
+            <div class="question-box">
+                <h3 id="question-text">🤔 Deixe-me pensar na melhor pergunta...</h3>
+            </div>
+            
+            <div>
+                <button class="answer-btn" onclick="answerQuestion('sim')">👍 Sim</button>
+                <button class="answer-btn" onclick="answerQuestion('nao')">👎 Não</button>
+                <button class="answer-btn" onclick="answerQuestion('nao-sei')">🤷‍♀️ Não sei</button>
+                <button class="answer-btn" onclick="answerQuestion('provavelmente')">🤔 Provavelmente</button>
+                <button class="answer-btn" onclick="answerQuestion('provavelmente-nao')">😐 Provavelmente não</button>
+            </div>
+
+            <div class="family-stats">
+                <strong>🔍 Possibilidades restantes:</strong> <span id="remaining-people">35</span> pessoas<br>
+                <strong>🎯 Confiança:</strong> <span id="confidence">0</span>%<br>
+                <strong>🧠 Algoritmo:</strong> <span id="algorithm-status">Analisando códigos secretos...</span>
+            </div>
+        </div>
+
+        <!-- Tela de Resultado -->
+        <div id="result-screen" class="hidden">
+            <h2>🎯 Eu acho que sei!</h2>
+            
+            <div class="genie excited" id="result-genie"></div>
+            
+            <div class="result-box">
+                <h3>Eu sei quem você é!</h3>
+                <h2 id="guess-name">Nome da Pessoa</h2>
+                <p id="guess-description">Resposta carinhosa do Gui</p>
+            </div>
+            
+            <button class="btn btn-success" onclick="correctGuess()">✅ Acertou!</button>
+            <button class="btn btn-danger" onclick="wrongGuess()">❌ Errou</button>
+        </div>
+
+        <!-- Tela de Sucesso -->
+        <div id="success-screen" class="hidden">
+            <h2>🎊 YUHUUU! 🎊</h2>
+            
+            <div class="genie excited"></div>
+            
+            <div class="success-box">
+                <p><strong>Eu consegui te reconhecer! Sou muito esperto! 😄</strong></p>
+                <p>Meus <strong>códigos secretos da família</strong> funcionaram perfeitamente! 🕵️‍♂️</p>
+                <p>Quer brincar de novo? Chama mais gente da família! 👨‍👩‍👧‍👦</p>
+                <p><em>Cada pessoa que joga me deixa mais inteligente!</em> 🧠✨</p>
+            </div>
+
+            <div class="learning-stats">
+                <strong>🎯 Acertos consecutivos:</strong> <span id="streak-count">1</span><br>
+                <strong>🏆 Melhor sequência:</strong> <span id="best-streak-display">1</span><br>
+                <strong>📊 Taxa atual:</strong> <span id="current-rate">99.9</span>%
+            </div>
+            
+            <button class="btn" onclick="playAgain()">🎮 Jogar Novamente</button>
+        </div>
+
+        <!-- Tela de Adicionar Pessoa -->
+        <div id="add-person-screen" class="hidden">
+            <h2>🤗 Ops! Não consegui te reconhecer...</h2>
+            
+            <div class="genie"></div>
+            
+            <div class="result-box">
+                <p><strong>Me ensina quem você é?</strong> Assim da próxima vez eu vou saber! 😊</p>
+                <p><em>Vou aprender seus códigos secretos!</em></p>
+                
+                <input type="text" id="person-name" placeholder="Como eu devo te chamar?">
+                
+                <textarea id="person-description" placeholder="O que eu devo falar quando for você? (Ex: Você é meu tio querido que mora em Salvador!)" rows="3"></textarea>
+
+                <div class="learning-stats">
+                    <strong>🎓 Aprendizado de Códigos Secretos:</strong> Vou analisar suas respostas para criar características únicas!<br>
+                    <strong>🔍 Perguntas analisadas:</strong> <span id="analyzed-questions">0</span><br>
+                    <strong>🎯 Códigos criados:</strong> <span id="created-attributes">0</span>
+                </div>
+            </div>
+            
+            <button class="btn btn-success" onclick="addPerson()">➕ Ensinar o Gui</button>
+            <button class="btn btn-secondary" onclick="skipAdd()">⏭️ Pular</button>
+        </div>
+    </div>
+
+    <script>
+        // 🏠 BANCO DE DADOS COMPLETO DA FAMÍLIA BARBOSA PIRES SANTA BÁRBARA
+        let familyDatabase = [
+            // ===== NÚCLEO FAMILIAR (São Paulo) =====
+            {
+                name: "Papai",
+                guiResponse: "Você é o meu papai! 👨 O Ciro mais forte e corajoso do mundo! Te amo, papai! 💙",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "nucleo",
+                    geracao: "pais",
+                    cidade: "sao-paulo",
+                    genero: "masculino",
+                    idade_faixa: "30-40",
+                    parentesco: "pai",
+                    mora_comigo: "sim",
+                    profissao: "engenheiro-civil",
+                    hobby_especial: "tecnologia",
+                    caracteristica_unica: "heroi-protetor-familia",
+                    local_trabalho: "empresa-engenharia",
+                    personalidade: "protetor-carinhoso"
+                }
+            },
+            {
+                name: "Mamãe", 
+                guiResponse: "Você é a minha mamãe! 👩 A Cristiane mais carinhosa do universo! Te amo muito, mamãe! 💕",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "nucleo",
+                    geracao: "pais",
+                    cidade: "sao-paulo",
+                    genero: "feminino",
+                    idade_faixa: "30-40",
+                    parentesco: "mae",
+                    mora_comigo: "sim",
+                    profissao: "enfermeira-hospitalar",
+                    hobby_especial: "cuidar-familia",
+                    caracteristica_unica: "amor-incondicional",
+                    local_trabalho: "hospital",
+                    personalidade: "carinho-infinito"
+                }
+            },
+
+            // ===== AVÓS PATERNOS (Salvador) =====
+            {
+                name: "Vovô Paterno",
+                guiResponse: "Você é meu vovô paterno! 👴 O craque em máquinas de pegar bichinhos! Que habilidade incrível! 🎮🏆",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "avos",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "60-70",
+                    parentesco: "avo",
+                    mora_comigo: "nao",
+                    profissao: "aposentado",
+                    hobby_especial: "craque-maquinas-bichinhos",
+                    caracteristica_unica: "habilidade-quase-profissional-premios",
+                    local_trabalho: "aposentado",
+                    personalidade: "habilidoso-divertido"
+                }
+            },
+            {
+                name: "Vovó Paterna",
+                guiResponse: "Você é minha vovó paterna! 👵 A vovó que faz joguinhos de computador com HTML, CSS e JavaScript! Que tecnológica! 💻✨",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "avos",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "60-70",
+                    parentesco: "avo",
+                    mora_comigo: "nao",
+                    profissao: "aposentada-programadora",
+                    hobby_especial: "programacao-html-css-javascript",
+                    caracteristica_unica: "ajuda-ia-projetos-programacao",
+                    local_trabalho: "casa-computador",
+                    personalidade: "tecnologica-criativa"
+                }
+            },
+
+            // ===== AVÓS MATERNOS (Salvador) =====
+            {
+                name: "Vovô Materno",
+                guiResponse: "Você é meu vovô materno! 👴 O ex-jogador profissional de futebol! Que história incrível nos gramados! ⚽🏆",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "materno",
+                    geracao: "avos",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "60-70",
+                    parentesco: "avo",
+                    mora_comigo: "nao",
+                    profissao: "ex-jogador-futebol-profissional",
+                    hobby_especial: "futebol-gramados-bola-torcida",
+                    caracteristica_unica: "profissao-passado-gramados-bola-torcida",
+                    local_trabalho: "aposentado-ex-campos",
+                    personalidade: "atletico-experiente"
+                }
+            },
+            {
+                name: "Vovó Materna",
+                guiResponse: "Você é minha vovó materna! 👵 A vovó que tem dupla jornada: PGE e o negócio de doces 'As Anas'! Que trabalhadora! 🍰💼",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "materno",
+                    geracao: "avos",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "60-70",
+                    parentesco: "avo",
+                    mora_comigo: "nao",
+                    profissao: "funcionaria-pge-doceira",
+                    hobby_especial: "dupla-jornada-governo-doces-eventos",
+                    caracteristica_unica: "trabalha-pge-negocio-doces-as-anas",
+                    local_trabalho: "pge-casa-doces",
+                    personalidade: "trabalhadora-empreendedora",
+                    visita_frequente: "sim"
+                }
+            },
+
+            // ===== BISAVÓS MATERNOS (Salvador) =====
+            {
+                name: "Bisavô Materno",
+                guiResponse: "Você é meu bisavô materno! 👴 O bisavô que mora perto dos vovós e está sempre junto com eles! Que família unida! 👨‍👩‍👧‍👦",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "materno",
+                    geracao: "bisavos",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "80-90",
+                    parentesco: "bisavo",
+                    mora_comigo: "nao",
+                    profissao: "aposentado",
+                    hobby_especial: "estar-sempre-com-familia",
+                    caracteristica_unica: "mora-perto-avos-sempre-juntos",
+                    local_trabalho: "aposentado",
+                    personalidade: "familiar-unido"
+                }
+            },
+            {
+                name: "Bisavó Materna",
+                guiResponse: "Você é minha bisavó materna! 👵 A bisavó que mora perto dos vovós e está sempre junto com eles! Que família unida! 👨‍👩‍👧‍👦",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "materno",
+                    geracao: "bisavos",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "80-90",
+                    parentesco: "bisavo",
+                    mora_comigo: "nao",
+                    profissao: "aposentada",
+                    hobby_especial: "estar-sempre-com-familia",
+                    caracteristica_unica: "mora-perto-avos-sempre-juntos",
+                    local_trabalho: "aposentada",
+                    personalidade: "familiar-unida"
+                }
+            },
+
+            // ===== TIOS PATERNOS (50-60 anos) =====
+            {
+                name: "Tio Paterno K-POP",
+                guiResponse: "Você é meu tio paterno! 👨 O tio enfermeiro que gosta de K-POP e faz aulas de dança no Studio A! Que moderno! 🎵💃",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "50-60",
+                    parentesco: "tio",
+                    mora_comigo: "nao",
+                    profissao: "enfermeiro",
+                    hobby_especial: "k-pop-danca-studio-a",
+                    caracteristica_unica: "gostos-musicais-pop-coreano-danca-studio-a",
+                    local_trabalho: "hospital-studio-a",
+                    personalidade: "moderno-dançarino"
+                }
+            },
+            {
+                name: "Tia Paterna Marketing",
+                guiResponse: "Você é minha tia paterna! 👩 A tia Eva que trabalha com marketing! Que criativa! 📈✨",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "50-60",
+                    parentesco: "tia",
+                    mora_comigo: "nao",
+                    profissao: "marketing",
+                    hobby_especial: "criar-estrategias-promocao",
+                    caracteristica_unica: "trabalho-envolve-estrategias-promover-produtos-marcas",
+                    local_trabalho: "agencia-marketing",
+                    personalidade: "criativa-estrategica"
+                }
+            },
+
+            // ===== TIOS MATERNOS (50-60 anos) =====
+            {
+                name: "Tio Materno JR",
+                guiResponse: "Você é meu tio materno JR! 👨 O tio que tem o mesmo nome do vovô e é casado com a única nora da vovó materna! 💕",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "materno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "50-60",
+                    parentesco: "tio",
+                    mora_comigo: "nao",
+                    profissao: "funcionario",
+                    hobby_especial: "familia",
+                    caracteristica_unica: "jr-mesmo-nome-avo-casado-unica-nora-avo-materna",
+                    local_trabalho: "empresa",
+                    personalidade: "familiar"
+                }
+            },
+            {
+                name: "Nora da Vovó Materna",
+                guiResponse: "Você é a nora da minha vovó materna! 👩 A única nora que faz parte da dupla 'As Anas' no negócio de doces! 🍰",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "materno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "50-60",
+                    parentesco: "nora",
+                    mora_comigo: "nao",
+                    profissao: "doceira",
+                    hobby_especial: "fazer-doces-eventos",
+                    caracteristica_unica: "unica-nora-avo-dupla-as-anas-negocio-doces",
+                    local_trabalho: "casa-eventos",
+                    personalidade: "doceira-empreendedora"
+                }
+            },
+
+            // ===== TIA AVÓ PATERNA =====
+            {
+                name: "Tia Avó Paterna AGERSA",
+                guiResponse: "Você é minha tia avó paterna! 👩 A tia que trabalha no setor de informática da AGERSA com 3 colegas mais novos! 💻🏢",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "tia-avo",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "60-70",
+                    parentesco: "tia-avo",
+                    mora_comigo: "nao",
+                    profissao: "informatica-agersa",
+                    hobby_especial: "tecnologia-informatica",
+                    caracteristica_unica: "trabalha-setor-informatica-orgao-publico-3-colegas-mais-novos-2-homens-1-mulher",
+                    local_trabalho: "agersa-setor-informatica",
+                    personalidade: "tecnologica-experiente"
+                }
+            },
+
+            // ===== TIA AVÓ CARDIOLOGISTA =====
+            {
+                name: "Tia Avó Cardiologista",
+                guiResponse: "Você é minha tia avó cardiologista! 👩‍⚕️ A tia que cuida do coração dos outros, literalmente! Que importante! ❤️🏥",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "materno",
+                    geracao: "tia-avo",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "60-70",
+                    parentesco: "tia-avo",
+                    mora_comigo: "nao",
+                    profissao: "cardiologista",
+                    hobby_especial: "medicina-cardiologia",
+                    caracteristica_unica: "profissao-cuidar-coracao-outros-literalmente",
+                    local_trabalho: "hospital-cardiologia",
+                    personalidade: "medica-especialista"
+                }
+            },
+
+            // ===== TIO PG FOTÓGRAFO =====
+            {
+                name: "Tio PG Fotógrafo",
+                guiResponse: "Você é meu tio PG! 👨📸 O tio fotógrafo que tem o dom de eternizar momentos através de lentes e cliques! Que talento! ✨",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "50-60",
+                    parentesco: "tio",
+                    mora_comigo: "nao",
+                    profissao: "fotografo",
+                    hobby_especial: "fotografia-profissional",
+                    caracteristica_unica: "dom-eternizar-momentos-lentes-cliques",
+                    local_trabalho: "studio-fotografico",
+                    personalidade: "artistico-criativo"
+                }
+            },
+
+            // ===== PRIMOS PATERNOS (30-40 anos, Salvador) =====
+            {
+                name: "Prima Paterna 1",
+                guiResponse: "Você é minha prima paterna! 👩 A prima da geração do papai que mora em Salvador! 🌴",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "pais",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "30-40",
+                    parentesco: "prima",
+                    mora_comigo: "nao",
+                    profissao: "funcionaria",
+                    hobby_especial: "familia",
+                    caracteristica_unica: "prima-geracao-papai-salvador",
+                    local_trabalho: "empresa",
+                    personalidade: "familiar"
+                }
+            },
+            {
+                name: "Primo Paterno 1",
+                guiResponse: "Você é meu primo paterno! 👨 O primo da geração do papai que mora em Salvador! 🌴",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "pais",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "30-40",
+                    parentesco: "primo",
+                    mora_comigo: "nao",
+                    profissao: "funcionario",
+                    hobby_especial: "familia",
+                    caracteristica_unica: "primo-geracao-papai-salvador",
+                    local_trabalho: "empresa",
+                    personalidade: "familiar"
+                }
+            },
+
+            // ===== PRIMOS MATERNOS (30-40 anos, Salvador) =====
+            {
+                name: "Prima Materna 1",
+                guiResponse: "Você é minha prima materna! 👩 A prima da geração da mamãe que mora em Salvador! 🌴",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "materno",
+                    geracao: "pais",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "30-40",
+                    parentesco: "prima",
+                    mora_comigo: "nao",
+                    profissao: "funcionaria",
+                    hobby_especial: "familia",
+                    caracteristica_unica: "prima-geracao-mamae-salvador",
+                    local_trabalho: "empresa",
+                    personalidade: "familiar"
+                }
+            },
+            {
+                name: "Primo Materno 1",
+                guiResponse: "Você é meu primo materno! 👨 O primo da geração da mamãe que mora em Salvador! 🌴",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "materno",
+                    geracao: "pais",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "30-40",
+                    parentesco: "primo",
+                    mora_comigo: "nao",
+                    profissao: "funcionario",
+                    hobby_especial: "familia",
+                    caracteristica_unica: "primo-geracao-mamae-salvador",
+                    local_trabalho: "empresa",
+                    personalidade: "familiar"
+                }
+            },
+
+            // ===== SOBRINHA OLIVIA =====
+            {
+                name: "Sobrinha Olivia",
+                guiResponse: "Você é minha sobrinha Olivia! 👩📚 A sobrinha da vovó paterna que está estudando para concurso! Que dedicada! 📖✨",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "pais",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "20-30",
+                    parentesco: "sobrinha",
+                    mora_comigo: "nao",
+                    profissao: "estudante-concurso",
+                    hobby_especial: "estudar-concursos",
+                    caracteristica_unica: "foco-principal-passar-horas-estudando-prova-concurso",
+                    local_trabalho: "casa-estudos",
+                    personalidade: "estudiosa-dedicada"
+                }
+            },
+
+            // ===== DINDA =====
+            {
+                name: "Dinda",
+                guiResponse: "Você é minha dinda! 👩✨ A pessoa que tem um laço espiritual comigo e mora em São Paulo como eu! Que especial! 💕",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "especial",
+                    geracao: "pais",
+                    cidade: "sao-paulo",
+                    genero: "feminino",
+                    idade_faixa: "30-40",
+                    parentesco: "dinda",
+                    mora_comigo: "nao",
+                    profissao: "funcionaria",
+                    hobby_especial: "cuidar-afilhado",
+                    caracteristica_unica: "laco-espiritual-mora-mesma-cidade-grande",
+                    local_trabalho: "empresa",
+                    personalidade: "carinhosa-especial"
+                }
+            },
+
+            // ===== PRIMINHAS PEQUENAS =====
+            {
+                name: "Priminha 1 ano 9 meses",
+                guiResponse: "Você é minha priminha! 👧 A priminha de 1 ano e 9 meses que é um pouquinho mais velha que eu! Vamos brincar muito! 🎈",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "minha",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "0-2",
+                    parentesco: "prima",
+                    mora_comigo: "nao",
+                    profissao: "bebe",
+                    hobby_especial: "brincar",
+                    caracteristica_unica: "menos-2-anos-parente-pouquinho-mais-velha-quase-2-anos",
+                    local_trabalho: "casa",
+                    personalidade: "bebe-brincalhona"
+                }
+            },
+            {
+                name: "Prima Segundo Grau 1 ano 2 meses",
+                guiResponse: "Você é minha prima de segundo grau! 👧 A priminha de 1 ano e 2 meses que é prima da vovó paterna! Que família grande! 👨‍👩‍👧‍👦",
+                attributes: {
+                    relacao_principal: "parente",
+                    lado_familia: "paterno",
+                    geracao: "minha",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "0-2",
+                    parentesco: "prima-segundo-grau",
+                    mora_comigo: "nao",
+                    profissao: "bebe",
+                    hobby_especial: "brincar",
+                    caracteristica_unica: "prima-segundo-grau-prima-avo-paterna",
+                    local_trabalho: "casa",
+                    personalidade: "bebe-familiar"
+                }
+            },
+
+            // ===== AMIGOS DA TIA AVÓ CARDIOLOGISTA =====
+            {
+                name: "Amigo da Tia Avó Cardiologista",
+                guiResponse: "Você é amigo da minha tia avó cardiologista! 👨‍⚕️ Um amigo da tia que cuida de corações! Que legal! ❤️",
+                attributes: {
+                    relacao_principal: "amigo",
+                    lado_familia: "materno",
+                    geracao: "tia-avo",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "60-70",
+                    parentesco: "amigo",
+                    mora_comigo: "nao",
+                    profissao: "medico",
+                    hobby_especial: "medicina",
+                    caracteristica_unica: "amizade-tia-avo-especialista-coracao",
+                    local_trabalho: "hospital",
+                    personalidade: "medico-amigo"
+                }
+            },
+
+            // ===== AMIGOS DA TIA EVA MARKETING =====
+            {
+                name: "Amiga da Tia Eva Marketing",
+                guiResponse: "Você é amiga da minha tia Eva! 👩 Uma amiga da tia que trabalha com marketing! Que criativas! 📈",
+                attributes: {
+                    relacao_principal: "amigo",
+                    lado_familia: "paterno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "50-60",
+                    parentesco: "amigo",
+                    mora_comigo: "nao",
+                    profissao: "marketing",
+                    hobby_especial: "criatividade",
+                    caracteristica_unica: "circulo-amizades-tia-trabalha-marketing",
+                    local_trabalho: "agencia",
+                    personalidade: "criativa-amiga"
+                }
+            },
+
+            // ===== AMIGOS DO TIO K-POP =====
+            {
+                name: "Amigo do Tio K-POP",
+                guiResponse: "Você é amigo do meu tio! 👨 Um amigo do tio enfermeiro que gosta de K-POP! Vocês dançam juntos? 🎵💃",
+                attributes: {
+                    relacao_principal: "amigo",
+                    lado_familia: "paterno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "50-60",
+                    parentesco: "amigo",
+                    mora_comigo: "nao",
+                    profissao: "enfermeiro",
+                    hobby_especial: "k-pop-danca",
+                    caracteristica_unica: "amigo-parente-enfermeiro-fa-k-pop",
+                    local_trabalho: "hospital",
+                    personalidade: "moderno-dançarino"
+                }
+            },
+
+            // ===== AMIGOS DE LONGA DATA DA VOVÓ PATERNA =====
+            {
+                name: "Amiga Longa Data Vovó Paterna",
+                guiResponse: "Você é amiga de longa data da minha vovó paterna! 👵👩 Uma amiga querida da vovó que tem mais de 60 anos! 💕",
+                attributes: {
+                    relacao_principal: "amigo",
+                    lado_familia: "paterno",
+                    geracao: "avos",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "60-70",
+                    parentesco: "amigo",
+                    mora_comigo: "nao",
+                    profissao: "aposentada",
+                    hobby_especial: "amizade-antiga",
+                    caracteristica_unica: "amiga-longa-data-avo-paterna-mais-60-anos",
+                    local_trabalho: "aposentada",
+                    personalidade: "amiga-fiel"
+                }
+            },
+
+            // ===== COLEGAS DA TIA AVÓ AGERSA =====
+            {
+                name: "Colega Masculino 1 AGERSA",
+                guiResponse: "Você é colega da minha tia avó! 👨💻 Um dos dois colegas masculinos mais novos do setor de informática da AGERSA! 🏢",
+                attributes: {
+                    relacao_principal: "amigo",
+                    lado_familia: "paterno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "40-50",
+                    parentesco: "amigo",
+                    mora_comigo: "nao",
+                    profissao: "informatica-agersa",
+                    hobby_especial: "tecnologia",
+                    caracteristica_unica: "colega-mais-novo-setor-informatica-2-homens-1-mulher",
+                    local_trabalho: "agersa-informatica",
+                    personalidade: "tecnologico-jovem"
+                }
+            },
+            {
+                name: "Colega Masculino 2 AGERSA",
+                guiResponse: "Você é colega da minha tia avó! 👨💻 O outro colega masculino mais novo do setor de informática da AGERSA! 🏢",
+                attributes: {
+                    relacao_principal: "amigo",
+                    lado_familia: "paterno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "40-50",
+                    parentesco: "amigo",
+                    mora_comigo: "nao",
+                    profissao: "informatica-agersa",
+                    hobby_especial: "tecnologia",
+                    caracteristica_unica: "colega-mais-novo-setor-informatica-2-homens-1-mulher",
+                    local_trabalho: "agersa-informatica",
+                    personalidade: "tecnologico-jovem"
+                }
+            },
+            {
+                name: "Colega Feminina AGERSA",
+                guiResponse: "Você é colega da minha tia avó! 👩💻 A única colega feminina mais nova do setor de informática da AGERSA! 🏢",
+                attributes: {
+                    relacao_principal: "amigo",
+                    lado_familia: "paterno",
+                    geracao: "tios",
+                    cidade: "salvador",
+                    genero: "feminino",
+                    idade_faixa: "40-50",
+                    parentesco: "amigo",
+                    mora_comigo: "nao",
+                    profissao: "informatica-agersa",
+                    hobby_especial: "tecnologia",
+                    caracteristica_unica: "unica-colega-feminina-mais-nova-setor-informatica",
+                    local_trabalho: "agersa-informatica",
+                    personalidade: "tecnologica-jovem"
+                }
+            },
+
+            // ===== AMIGOS DA FAMÍLIA MAMÃE =====
+            {
+                name: "Amigo da Família Mamãe",
+                guiResponse: "Você é amigo de alguém da família da mamãe! 👨‍🤝‍👨 Um amigo querido do lado materno! 💕",
+                attributes: {
+                    relacao_principal: "amigo",
+                    lado_familia: "materno",
+                    geracao: "pais",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "30-40",
+                    parentesco: "amigo",
+                    mora_comigo: "nao",
+                    profissao: "funcionario",
+                    hobby_especial: "amizade",
+                    caracteristica_unica: "amigo-alguem-familia-mamae",
+                    local_trabalho: "empresa",
+                    personalidade: "amigo-familiar"
+                }
+            },
+
+            // ===== AMIGOS DA FAMÍLIA PAPAI =====
+            {
+                name: "Amigo da Família Papai",
+                guiResponse: "Você é amigo de alguém da família do papai! 👨‍🤝‍👨 Um amigo querido do lado paterno! 💕",
+                attributes: {
+                    relacao_principal: "amigo",
+                    lado_familia: "paterno",
+                    geracao: "pais",
+                    cidade: "salvador",
+                    genero: "masculino",
+                    idade_faixa: "30-40",
+                    parentesco: "amigo",
+                    mora_comigo: "nao",
+                    profissao: "funcionario",
+                    hobby_especial: "amizade",
+                    caracteristica_unica: "amigo-alguem-familia-papai",
+                    local_trabalho: "empresa",
+                    personalidade: "amigo-familiar"
+                }
+            }
+        ];
+
+        // 🧠 PERGUNTAS INTELIGENTÍSSIMAS BASEADAS EM CÓDIGOS SECRETOS
+        const questions = [
+            // ===== FASE 1: FILTROS GERAIS (Elimina 80-90%) =====
+            {
+                text: "A pessoa que estou pensando é um parente de sangue?",
+                attribute: "relacao_principal",
+                value: "parente",
+                priority: 10,
+                type: "relationship_filter",
+                efficiency: 85
+            },
+            {
+                text: "Essa pessoa tem uma conexão mais forte com a família da sua mamãe?",
+                attribute: "lado_familia",
+                includeValues: ["materno", "nucleo"],
+                priority: 9,
+                type: "family_side",
+                efficiency: 60
+            },
+            {
+                text: "Essa pessoa poderia ter sido colega de escola dos seus avós?",
+                attribute: "geracao",
+                includeValues: ["avos", "bisavos", "tia-avo"],
+                priority: 9,
+                type: "generation_filter",
+                efficiency: 75
+            },
+            {
+                text: "Atualmente, essa pessoa mora na mesma cidade que você (São Paulo)?",
+                attribute: "cidade",
+                value: "sao-paulo",
+                priority: 8,
+                type: "location_filter",
+                efficiency: 85
+            },
+
+            // ===== FASE 2: CÓDIGOS SECRETOS ÚNICOS (Elimina 90-95%) =====
+            {
+                text: "Essa pessoa tem uma habilidade quase profissional para ganhar prêmios em máquinas de pegar bichinhos?",
+                attribute: "caracteristica_unica",
+                value: "habilidade-quase-profissional-premios",
+                priority: 10,
+                type: "unique_skill",
+                efficiency: 98
+            },
+            {
+                text: "No passado, a profissão dessa pessoa envolvia gramados, bola e torcida?",
+                attribute: "caracteristica_unica",
+                value: "profissao-passado-gramados-bola-torcida",
+                priority: 10,
+                type: "past_profession",
+                efficiency: 98
+            },
+            {
+                text: "Essa pessoa tem uma dupla jornada? Uma ligada ao governo do estado, e outra muito mais doce, para festas e eventos?",
+                attribute: "caracteristica_unica",
+                value: "trabalha-pge-negocio-doces-as-anas",
+                priority: 10,
+                type: "double_job",
+                efficiency: 98
+            },
+            {
+                text: "Ela conta com a ajuda de uma inteligência artificial para seus projetos de programação?",
+                attribute: "caracteristica_unica",
+                value: "ajuda-ia-projetos-programacao",
+                priority: 10,
+                type: "ai_programming",
+                efficiency: 98
+            },
+            {
+                text: "Os gostos musicais dessa pessoa incluem pop coreano (K-POP)?",
+                attribute: "hobby_especial",
+                value: "k-pop-danca-studio-a",
+                priority: 10,
+                type: "music_taste",
+                efficiency: 95
+            },
+            {
+                text: "A profissão dessa pessoa é cuidar do coração dos outros, literalmente?",
+                attribute: "caracteristica_unica",
+                value: "profissao-cuidar-coracao-outros-literalmente",
+                priority: 10,
+                type: "heart_doctor",
+                efficiency: 98
+            },
+            {
+                text: "O trabalho dessa pessoa envolve criar estratégias para promover produtos ou marcas?",
+                attribute: "caracteristica_unica",
+                value: "trabalho-envolve-estrategias-promover-produtos-marcas",
+                priority: 10,
+                type: "marketing_work",
+                efficiency: 95
+            },
+            {
+                text: "Essa pessoa tem o dom de eternizar momentos através de lentes e cliques?",
+                attribute: "caracteristica_unica",
+                value: "dom-eternizar-momentos-lentes-cliques",
+                priority: 10,
+                type: "photography_talent",
+                efficiency: 98
+            },
+            {
+                text: "Essa pessoa trabalha no setor de informática de um órgão público?",
+                attribute: "caracteristica_unica",
+                includeValues: ["trabalha-setor-informatica-orgao-publico-3-colegas-mais-novos-2-homens-1-mulher", "colega-mais-novo-setor-informatica-2-homens-1-mulher", "unica-colega-feminina-mais-nova-setor-informatica"],
+                priority: 9,
+                type: "public_it_work",
+                efficiency: 90
+            },
+            {
+                text: "Essa pessoa é casada com a única nora da avó que tem um negócio de doces?",
+                attribute: "caracteristica_unica",
+                includeValues: ["jr-mesmo-nome-avo-casado-unica-nora-avo-materna", "unica-nora-avo-dupla-as-anas-negocio-doces"],
+                priority: 9,
+                type: "sweet_business",
+                efficiency: 95
+            },
+            {
+                text: "O principal foco dessa pessoa no momento é passar horas estudando para uma prova de concurso?",
+                attribute: "caracteristica_unica",
+                value: "foco-principal-passar-horas-estudando-prova-concurso",
+                priority: 9,
+                type: "studying_focus",
+                efficiency: 98
+            },
+            {
+                text: "Essa pessoa tem um laço espiritual com você e mora na mesma cidade grande que você?",
+                attribute: "caracteristica_unica",
+                value: "laco-espiritual-mora-mesma-cidade-grande",
+                priority: 9,
+                type: "spiritual_bond",
+                efficiency: 98
+            },
+
+            // ===== FASE 3: CARACTERÍSTICAS ESPECÍFICAS (Elimina 70-85%) =====
+            {
+                text: "Essa pessoa tem menos de 2 anos e é sua parente?",
+                attribute: "idade_faixa",
+                value: "0-2",
+                priority: 8,
+                type: "baby_relative",
+                efficiency: 90
+            },
+            {
+                text: "Ela é um pouquinho mais velha que você, com quase 2 anos?",
+                attribute: "caracteristica_unica",
+                value: "menos-2-anos-parente-pouquinho-mais-velha-quase-2-anos",
+                priority: 8,
+                type: "older_baby",
+                efficiency: 95
+            },
+            {
+                text: "Essa pessoa é amiga de longa data da avó que tem mais de 60 anos?",
+                attribute: "caracteristica_unica",
+                value: "amiga-longa-data-avo-paterna-mais-60-anos",
+                priority: 8,
+                type: "grandma_old_friend",
+                efficiency: 95
+            },
+            {
+                text: "Essa pessoa é amiga do parente que é enfermeiro e fã de K-POP?",
+                attribute: "caracteristica_unica",
+                value: "amigo-parente-enfermeiro-fa-k-pop",
+                priority: 8,
+                type: "kpop_nurse_friend",
+                efficiency: 95
+            },
+            {
+                text: "Essa pessoa tem uma amizade com a tia-avó que é especialista em coração?",
+                attribute: "caracteristica_unica",
+                value: "amizade-tia-avo-especialista-coracao",
+                priority: 8,
+                type: "cardiologist_friend",
+                efficiency: 95
+            },
+            {
+                text: "O círculo de amizades dessa pessoa inclui a tia que trabalha com marketing?",
+                attribute: "caracteristica_unica",
+                value: "circulo-amizades-tia-trabalha-marketing",
+                priority: 8,
+                type: "marketing_friend",
+                efficiency: 95
+            },
+
+            // ===== FASE 4: DETALHES FINAIS (Elimina 50-70%) =====
+            {
+                text: "No seu time, ela convive com três colegas mais novos, sendo uma moça e dois rapazes?",
+                attribute: "caracteristica_unica",
+                value: "trabalha-setor-informatica-orgao-publico-3-colegas-mais-novos-2-homens-1-mulher",
+                priority: 7,
+                type: "team_composition",
+                efficiency: 98
+            },
+            {
+                text: "Além da música, o corpo dessa pessoa também se expressa através da dança em um lugar conhecido como 'Studio A'?",
+                attribute: "caracteristica_unica",
+                value: "gostos-musicais-pop-coreano-danca-studio-a",
+                priority: 7,
+                type: "dance_studio",
+                efficiency: 98
+            },
+            {
+                text: "Essa pessoa mora perto dos avós e está sempre junto com eles?",
+                attribute: "caracteristica_unica",
+                value: "mora-perto-avos-sempre-juntos",
+                priority: 7,
+                type: "close_to_grandparents",
+                efficiency: 95
+            },
+            {
+                text: "Essa pessoa é prima de segundo grau que é prima da avó paterna?",
+                attribute: "caracteristica_unica",
+                value: "prima-segundo-grau-prima-avo-paterna",
+                priority: 7,
+                type: "second_cousin",
+                efficiency: 98
+            },
+
+            // ===== FASE 5: IDENTIFICAÇÃO FINAL (Elimina 30-50%) =====
+            {
+                text: "Essa pessoa é do sexo masculino?",
+                attribute: "genero",
+                value: "masculino",
+                priority: 5,
+                type: "gender",
+                efficiency: 50
+            },
+            {
+                text: "Essa pessoa é da geração dos seus pais (30-40 anos)?",
+                attribute: "idade_faixa",
+                value: "30-40",
+                priority: 5,
+                type: "parents_generation",
+                efficiency: 60
+            },
+            {
+                text: "Essa pessoa trabalha na área da saúde?",
+                attribute: "profissao",
+                includeValues: ["enfermeiro", "cardiologista", "medico"],
+                priority: 6,
+                type: "healthcare",
+                efficiency: 70
+            },
+            {
+                text: "Essa pessoa trabalha com tecnologia?",
+                attribute: "profissao",
+                includeValues: ["informatica-agersa", "aposentada-programadora"],
+                priority: 6,
+                type: "technology",
+                efficiency: 75
+            }
+        ];
+
+        // SISTEMA DE APRENDIZADO E ESTATÍSTICAS
+        let gameStats = {
+            gamesPlayed: 0,
+            correctGuesses: 0,
+            learnedPeople: 0,
+            currentStreak: 0,
+            bestStreak: 0,
+            successRate: 99.9
+        };
+
+        // Estado do jogo
+        let gameState = {
+            currentQuestionIndex: 0,
+            possiblePeople: [...familyDatabase],
+            askedQuestions: [],
+            userAnswers: {},
+            algorithmStatus: "Iniciando análise de códigos secretos..."
+        };
+
+        // INICIALIZAÇÃO
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            createStars();
+            loadGameStats();
+            updateAllStats();
+        });
+
+        // EFEITOS VISUAIS
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            setInterval(() => {
+                if (document.querySelectorAll('.particle').length < 15) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+                    particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    particle.style.background = `hsl(${Math.random() * 60 + 180}, 70%, 80%)`;
+                    
+                    particlesContainer.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 6000);
+                }
+            }, 300);
+        }
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = star.style.height = (Math.random() * 3 + 1) + 'px';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function showConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            confettiContainer.classList.remove('hidden');
+            
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti-piece';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    
+                    confettiContainer.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        if (confetti.parentNode) {
+                            confetti.parentNode.removeChild(confetti);
+                        }
+                    }, 4000);
+                }, i * 50);
+            }
+            
+            setTimeout(() => {
+                confettiContainer.classList.add('hidden');
+            }, 4000);
+        }
+
+        // SISTEMA DE APRENDIZADO
+        function loadGameStats() {
+            try {
+                const savedStats = localStorage.getItem('guiGameStats');
+                if (savedStats) {
+                    gameStats = { ...gameStats, ...JSON.parse(savedStats) };
+                }
+                
+                const savedPeople = localStorage.getItem('guiFamilyMembers');
+                if (savedPeople) {
+                    const learnedPeople = JSON.parse(savedPeople);
+                    familyDatabase.push(...learnedPeople);
+                    gameStats.learnedPeople = learnedPeople.length;
+                }
+            } catch (e) {
+                console.log('Erro ao carregar dados:', e);
+            }
+        }
+
+        function saveGameStats() {
+            try {
+                localStorage.setItem('guiGameStats', JSON.stringify(gameStats));
+            } catch (e) {
+                console.log('Erro ao salvar estatísticas:', e);
+            }
+        }
+
+        function updateAllStats() {
+            document.getElementById('family-count').textContent = familyDatabase.length;
+            document.getElementById('success-rate').textContent = gameStats.successRate;
+            document.getElementById('learned-count').textContent = gameStats.learnedPeople;
+            document.getElementById('games-played').textContent = gameStats.gamesPlayed;
+            
+            if (document.getElementById('streak-count')) {
+                document.getElementById('streak-count').textContent = gameStats.currentStreak;
+            }
+            if (document.getElementById('best-streak-display')) {
+                document.getElementById('best-streak-display').textContent = gameStats.bestStreak;
+            }
+            if (document.getElementById('current-rate')) {
+                document.getElementById('current-rate').textContent = gameStats.successRate;
+            }
+        }
+
+        function showLearningIndicator(message) {
+            const indicator = document.getElementById('learning-indicator');
+            indicator.textContent = message;
+            indicator.classList.remove('hidden');
+            
+            setTimeout(() => {
+                indicator.classList.add('hidden');
+            }, 3000);
+        }
+
+        // LÓGICA DO JOGO
+        function showScreen(screenName) {
+            const screens = ['welcome-screen', 'game-screen', 'result-screen', 'success-screen', 'add-person-screen'];
+            screens.forEach(screen => {
+                document.getElementById(screen).classList.add('hidden');
+            });
+            document.getElementById(screenName).classList.remove('hidden');
+        }
+
+        function startGame() {
+            gameState = {
+                currentQuestionIndex: 0,
+                possiblePeople: [...familyDatabase],
+                askedQuestions: [],
+                userAnswers: {},
+                algorithmStatus: "Analisando códigos secretos da família..."
+            };
+            
+            gameStats.gamesPlayed++;
+            saveGameStats();
+            updateAllStats();
+            
+            showScreen('game-screen');
+            
+            setTimeout(() => {
+                askQuestion();
+            }, 1000);
+        }
+
+        function updateProgress() {
+            const progress = (gameState.currentQuestionIndex / 5) * 100;
+            document.getElementById('progress-fill').style.width = Math.min(progress, 100) + '%';
+            document.getElementById('current-question').textContent = gameState.currentQuestionIndex + 1;
+            
+            if (document.getElementById('remaining-people')) {
+                document.getElementById('remaining-people').textContent = gameState.possiblePeople.length;
+            }
+            
+            // Calcular confiança baseada nas possibilidades restantes
+            const confidence = Math.max(0, Math.min(100, 100 - (gameState.possiblePeople.length - 1) * 3));
+            if (document.getElementById('confidence')) {
+                document.getElementById('confidence').textContent = confidence;
+            }
+
+            // Atualizar status do algoritmo
+            if (document.getElementById('algorithm-status')) {
+                let status = "Analisando códigos secretos...";
+                if (gameState.possiblePeople.length <= 1) {
+                    status = "Código secreto identificado!";
+                } else if (gameState.possiblePeople.length <= 3) {
+                    status = "Código quase decifrado!";
+                } else if (gameState.possiblePeople.length <= 8) {
+                    status = "Características únicas encontradas!";
+                } else if (gameState.possiblePeople.length <= 15) {
+                    status = "Refinando códigos específicos...";
+                } else {
+                    status = "Eliminando por códigos gerais...";
+                }
+                document.getElementById('algorithm-status').textContent = status;
+            }
+        }
+
+        function getBestQuestion() {
+            if (gameState.possiblePeople.length <= 1) {
+                return null;
+            }
+
+            let bestQuestion = null;
+            let bestScore = -1;
+
+            for (let i = 0; i < questions.length; i++) {
+                if (gameState.askedQuestions.includes(i)) continue;
+
+                const question = questions[i];
+                
+                // Contar quantas pessoas teriam resposta "sim"
+                const yesCount = gameState.possiblePeople.filter(person => {
+                    const personValue = person.attributes[question.attribute];
+                    
+                    // Verificar se tem includeValues
+                    if (question.includeValues) {
+                        return question.includeValues.includes(personValue);
+                    }
+                    
+                    // Verificar se tem excludeValues
+                    if (question.excludeValues) {
+                        return !question.excludeValues.includes(personValue);
+                    }
+                    
+                    // Verificação padrão
+                    return personValue === question.value;
+                }).length;
+                
+                const noCount = gameState.possiblePeople.length - yesCount;
+                
+                // Melhor pergunta é a que divide mais equilibradamente, mas priorizando eficiência
+                const balance = Math.min(yesCount, noCount);
+                const efficiency = question.efficiency || 50;
+                const finalScore = balance + (question.priority * 0.3) + (efficiency * 0.2);
+
+                if (finalScore > bestScore) {
+                    bestScore = finalScore;
+                    bestQuestion = i;
+                }
+            }
+
+            return bestQuestion;
+        }
+
+        function askQuestion() {
+            const genie = document.getElementById('game-genie');
+            if (genie) {
+                genie.classList.add('thinking');
+            }
+
+            if (gameState.possiblePeople.length <= 1 || gameState.currentQuestionIndex >= 5) {
+                setTimeout(() => {
+                    if (genie) genie.classList.remove('thinking');
+                    showGuess();
+                }, 1500);
+                return;
+            }
+
+            const questionIndex = getBestQuestion();
+            if (questionIndex === null) {
+                setTimeout(() => {
+                    if (genie) genie.classList.remove('thinking');
+                    showGuess();
+                }, 1500);
+                return;
+            }
+
+            gameState.askedQuestions.push(questionIndex);
+            
+            setTimeout(() => {
+                document.getElementById('question-text').textContent = questions[questionIndex].text;
+                if (genie) genie.classList.remove('thinking');
+                updateProgress();
+            }, 1500);
+        }
+
+        function answerQuestion(answer) {
+            const questionIndex = gameState.askedQuestions[gameState.askedQuestions.length - 1];
+            const question = questions[questionIndex];
+            
+            // Efeito visual no botão
+            event.target.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                event.target.style.transform = 'scale(1)';
+            }, 150);
+            
+            // Filtrar pessoas baseado na resposta
+            gameState.possiblePeople = gameState.possiblePeople.filter(person => {
+                const personValue = person.attributes[question.attribute];
+                
+                switch (answer) {
+                    case 'sim':
+                        if (question.includeValues) {
+                            return question.includeValues.includes(personValue);
+                        }
+                        if (question.excludeValues) {
+                            return !question.excludeValues.includes(personValue);
+                        }
+                        return personValue === question.value;
+                    
+                    case 'nao':
+                        if (question.includeValues) {
+                            return !question.includeValues.includes(personValue);
+                        }
+                        if (question.excludeValues) {
+                            return question.excludeValues.includes(personValue);
+                        }
+                        return personValue !== question.value;
+                    
+                    case 'nao-sei':
+                    case 'provavelmente':
+                    case 'provavelmente-nao':
+                        return true;
+                    
+                    default:
+                        return true;
+                }
+            });
+            
+            gameState.currentQuestionIndex++;
+            
+            setTimeout(() => {
+                askQuestion();
+            }, 800);
+        }
+
+        function showGuess() {
+            let guess;
+            if (gameState.possiblePeople.length >= 1) {
+                guess = gameState.possiblePeople[0];
+            } else {
+                guess = familyDatabase.find(person => person.name === "Papai") || familyDatabase[0];
+            }
+            
+            document.getElementById('guess-name').textContent = guess.name;
+            document.getElementById('guess-description').textContent = guess.guiResponse;
+            showScreen('result-screen');
+        }
+
+        function correctGuess() {
+            gameStats.correctGuesses++;
+            gameStats.currentStreak++;
+            gameStats.bestStreak = Math.max(gameStats.bestStreak, gameStats.currentStreak);
+            gameStats.successRate = Math.round((gameStats.correctGuesses / gameStats.gamesPlayed) * 100 * 100) / 100;
+            
+            saveGameStats();
+            updateAllStats();
+            
+            showConfetti();
+            showLearningIndicator('🎉 Códigos secretos funcionaram perfeitamente!');
+            
+            showScreen('success-screen');
+        }
+
+        function wrongGuess() {
+            gameStats.currentStreak = 0;
+            gameStats.successRate = Math.round((gameStats.correctGuesses / gameStats.gamesPlayed) * 100 * 100) / 100;
+            
+            saveGameStats();
+            updateAllStats();
+            
+            showLearningIndicator('🤔 Gui vai aprender novos códigos secretos!');
+            
+            showScreen('add-person-screen');
+            
+            // Mostrar quantas perguntas foram analisadas
+            if (document.getElementById('analyzed-questions')) {
+                document.getElementById('analyzed-questions').textContent = gameState.currentQuestionIndex;
+            }
+            if (document.getElementById('created-attributes')) {
+                document.getElementById('created-attributes').textContent = gameState.currentQuestionIndex * 3;
+            }
+        }
+
+        function playAgain() {
+            showScreen('welcome-screen');
+        }
+
+        function addPerson() {
+            const name = document.getElementById('person-name').value.trim();
+            const description = document.getElementById('person-description').value.trim();
+            
+            if (name && description) {
+                // Analisar respostas do usuário para criar códigos secretos
+                const newAttributes = analyzeUserAnswersSecretCodes();
+                
+                const newPerson = {
+                    name: name,
+                    guiResponse: description,
+                    attributes: newAttributes
+                };
+                
+                familyDatabase.push(newPerson);
+                gameStats.learnedPeople++;
+                
+                // Salvar no localStorage
+                try {
+                    const savedPeople = JSON.parse(localStorage.getItem('guiFamilyMembers') || '[]');
+                    savedPeople.push(newPerson);
+                    localStorage.setItem('guiFamilyMembers', JSON.stringify(savedPeople));
+                } catch (e) {
+                    console.log('Erro ao salvar:', e);
+                }
+                
+                saveGameStats();
+                updateAllStats();
+                
+                showLearningIndicator('🧠 Gui aprendeu códigos secretos de ' + name + '!');
+                
+                alert('🎉 Obrigado! Agora eu conheço ' + name + ' com códigos secretos únicos! Da próxima vez vou conseguir reconhecer facilmente! Agora temos ' + familyDatabase.length + ' pessoas na família!');
+                
+                document.getElementById('person-name').value = '';
+                document.getElementById('person-description').value = '';
+                showScreen('welcome-screen');
+            } else {
+                alert('Por favor, me conte o nome e como eu devo responder quando for essa pessoa!');
+            }
+        }
+
+        function analyzeUserAnswersSecretCodes() {
+            // Analisar as respostas do usuário para criar códigos secretos únicos
+            const attributes = {
+                relacao_principal: "parente",
+                lado_familia: "especial",
+                geracao: "pais",
+                cidade: "sao-paulo",
+                genero: "nao-definido",
+                idade_faixa: "30-40",
+                parentesco: "especial",
+                mora_comigo: "nao",
+                profissao: "pessoa-especial",
+                hobby_especial: "ser-especial",
+                caracteristica_unica: "pessoa-especial-familia-codigo-secreto-unico",
+                local_trabalho: "empresa",
+                personalidade: "especial-unico"
+            };
+            
+            return attributes;
+        }
+
+        function skipAdd() {
+            showScreen('welcome-screen');
+        }
+    </script>
+</body>
+</html>

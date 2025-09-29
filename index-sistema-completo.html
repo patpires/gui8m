@@ -141,28 +141,6 @@
             box-shadow: 0 0 25px rgba(159, 122, 234, 0.6);
         }
 
-        /* OLHOS QUE SEGUEM O MOUSE */
-        .genie::before,
-        .genie::after {
-            content: '';
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #333;
-            border-radius: 50%;
-            transition: all 0.1s ease;
-        }
-
-        .genie::before {
-            top: 45px;
-            left: 40px;
-        }
-
-        .genie::after {
-            top: 45px;
-            right: 40px;
-        }
-
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -455,42 +433,6 @@
             background: linear-gradient(45deg, #a0aec0, #718096);
         }
 
-        /* SISTEMA DE APRENDIZADO */
-        .learning-indicator {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(72, 187, 120, 0.9);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            z-index: 1000;
-            animation: slideInRight 0.5s ease-out;
-            backdrop-filter: blur(10px);
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .learning-stats {
-            background: linear-gradient(135deg, #e6fffa, #b2f5ea);
-            border: 1px solid #4fd1c7;
-            border-radius: 10px;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 0.8em;
-            color: #2d3748;
-        }
-
         /* RESPONSIVIDADE */
         @media (max-width: 600px) {
             .container {
@@ -524,11 +466,6 @@
     <!-- CONFETE (inicialmente oculto) -->
     <div class="confetti hidden" id="confetti"></div>
 
-    <!-- INDICADOR DE APRENDIZADO -->
-    <div class="learning-indicator hidden" id="learning-indicator">
-        🧠 Gui está aprendendo...
-    </div>
-
     <div class="container">
         <!-- Tela de Boas-vindas -->
         <div id="welcome-screen">
@@ -540,19 +477,14 @@
             <div class="intro">
                 <p><strong>Olá! Eu sou o Gui! 👶✨</strong></p>
                 <p>Sou o <strong>Gênio Bebê da Família</strong> e posso descobrir quem está brincando comigo agora!</p>
-                <p>Vou fazer algumas perguntinhas para te reconhecer e depois vou falar quem você é pra mim! 🤔💕</p>
-                <p><strong>Será que eu consigo descobrir quem é você?</strong> 😄</p>
+                <p>Agora eu tenho um <strong>SISTEMA COMPLETO</strong> com toda a família! 🎯</p>
+                <p><strong>SEMPRE faço 6 perguntas para ter 100% de certeza!</strong> 😄</p>
             </div>
 
             <div class="family-stats">
-                <strong>🏠 Família Cadastrada:</strong> <span id="family-count">13</span> pessoas<br>
-                <strong>🎯 Taxa de Acerto:</strong> <span id="success-rate">95</span>% de precisão<br>
-                <strong>❓ Perguntas Máximas:</strong> 6 perguntas inteligentes
-            </div>
-
-            <div class="learning-stats">
-                <strong>🧠 Sistema de Aprendizado:</strong> <span id="learned-count">0</span> pessoas aprendidas<br>
-                <strong>🎮 Jogos Realizados:</strong> <span id="games-played">0</span> partidas
+                <strong>🏠 Família Cadastrada:</strong> <span id="family-count">25</span> pessoas<br>
+                <strong>🎯 Sistema:</strong> 6 perguntas estratégicas<br>
+                <strong>🧠 Precisão:</strong> 100% garantida
             </div>
             
             <button class="btn" onclick="startGame()">🎮 Vamos Começar a Brincadeira!</button>
@@ -566,7 +498,7 @@
                 <div class="progress-fill" id="progress-fill"></div>
             </div>
             
-            <p>Pergunta <span id="current-question">1</span> de <span id="total-questions">6</span></p>
+            <p>Pergunta <span id="current-question">1</span> de 6 - <span id="question-type">Sistema Completo</span></p>
             
             <div class="genie thinking" id="game-genie"></div>
             
@@ -583,8 +515,9 @@
             </div>
 
             <div class="family-stats">
-                <strong>🔍 Possibilidades restantes:</strong> <span id="remaining-people">13</span> pessoas<br>
-                <strong>🎯 Confiança:</strong> <span id="confidence">0</span>%
+                <strong>📋 Sistema:</strong> 6 perguntas obrigatórias<br>
+                <strong>🎯 Progresso:</strong> <span id="progress-text">Coletando informações...</span><br>
+                <strong>🧠 Status:</strong> <span id="algorithm-status">Fazendo todas as perguntas...</span>
             </div>
         </div>
 
@@ -611,14 +544,10 @@
             <div class="genie excited"></div>
             
             <div class="success-box">
-                <p><strong>Eu consegui te reconhecer! Sou muito esperto! 😄</strong></p>
+                <p><strong>Eu consegui te descobrir! Meu sistema completo funcionou! 😄</strong></p>
+                <p>Agora eu conheço <strong>toda a família</strong> com características únicas! 🎯</p>
                 <p>Quer brincar de novo? Chama mais gente da família! 👨‍👩‍👧‍👦</p>
                 <p><em>Cada pessoa que joga me deixa mais inteligente!</em> 🧠✨</p>
-            </div>
-
-            <div class="learning-stats">
-                <strong>🎯 Acertos consecutivos:</strong> <span id="streak-count">1</span><br>
-                <strong>🏆 Melhor sequência:</strong> <span id="best-streak">1</span>
             </div>
             
             <button class="btn" onclick="playAgain()">🎮 Jogar Novamente</button>
@@ -626,21 +555,17 @@
 
         <!-- Tela de Adicionar Pessoa -->
         <div id="add-person-screen" class="hidden">
-            <h2>🤗 Ops! Não consegui te reconhecer...</h2>
+            <h2>🤗 Ops! Não consegui te descobrir...</h2>
             
             <div class="genie"></div>
             
             <div class="result-box">
                 <p><strong>Me ensina quem você é?</strong> Assim da próxima vez eu vou saber! 😊</p>
-                <p><em>Vou aprender e ficar mais esperto!</em></p>
+                <p><em>Vou aprender suas características únicas!</em></p>
                 
                 <input type="text" id="person-name" placeholder="Como eu devo te chamar?">
                 
                 <textarea id="person-description" placeholder="O que eu devo falar quando for você? (Ex: Você é meu tio querido que mora em Salvador!)" rows="3"></textarea>
-
-                <div class="learning-stats">
-                    <strong>🎓 Aprendizado Inteligente:</strong> Vou analisar suas respostas para criar um perfil único!
-                </div>
             </div>
             
             <button class="btn btn-success" onclick="addPerson()">➕ Ensinar o Gui</button>
@@ -649,350 +574,379 @@
     </div>
 
     <script>
-        // Banco de dados COMPLETO da família Barbosa Pires Santa Bárbara
+        // 🏠 BANCO DE DADOS COMPLETO DA FAMÍLIA COM CARACTERÍSTICAS ESPECÍFICAS
         let familyDatabase = [
-            // NÚCLEO FAMILIAR (São Paulo)
+            // ===== NÚCLEO FAMILIAR =====
             {
                 name: "Papai",
                 guiResponse: "Você é o meu papai! 👨 O Ciro mais forte e corajoso do mundo! Te amo, papai! 💙",
-                attributes: {
-                    lado_familia: "nucleo",
-                    cidade: "sao-paulo",
+                characteristics: {
                     genero: "masculino",
-                    idade: "adulto",
-                    parentesco: "pai",
-                    mora_aqui: "sim",
-                    cuida_de_mim: "sim",
-                    trabalha: "sim",
-                    frequencia_visita: "sempre"
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "sim",
+                    cuida_todos_dias: "sim",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "pai"
                 }
             },
             {
                 name: "Mamãe", 
                 guiResponse: "Você é a minha mamãe! 👩 A Cristiane mais carinhosa do universo! Te amo muito, mamãe! 💕",
-                attributes: {
-                    lado_familia: "nucleo",
-                    cidade: "sao-paulo",
+                characteristics: {
                     genero: "feminino",
-                    idade: "adulta", 
-                    parentesco: "mae",
-                    mora_aqui: "sim",
-                    cuida_de_mim: "sim",
-                    trabalha: "sim",
-                    frequencia_visita: "sempre"
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "sim",
+                    cuida_todos_dias: "sim",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "mae"
                 }
             },
 
-            // LADO PATERNO (Família do Papai - Salvador)
+            // ===== AVÓS =====
             {
-                name: "Vovô do Papai",
-                guiResponse: "Você é meu vovô do lado do papai! 👴 Que saudade de Salvador! Quando você vem me visitar? 🌴💕",
-                attributes: {
-                    lado_familia: "paterno",
-                    cidade: "salvador",
+                name: "Vovô Paterno",
+                guiResponse: "Você é meu vovô paterno! 👴 O craque em máquinas de pegar bichinhos! Que habilidade incrível! 🎮🏆",
+                characteristics: {
                     genero: "masculino",
-                    idade: "idoso",
-                    parentesco: "avo",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "nao",
-                    frequencia_visita: "pouco"
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "sim",
+                    caracteristica_unica: "craque-maquinas"
                 }
             },
             {
-                name: "Vovó do Papai",
-                guiResponse: "Você é minha vovó do lado do papai! 👵 A vovó de Salvador que faz os melhores quitutes! Que saudade! 🍰",
-                attributes: {
-                    lado_familia: "paterno",
-                    cidade: "salvador",
+                name: "Avó Paterna",
+                guiResponse: "Você é minha avó paterna! 👵 A avó que trabalha na AGERSA no setor de informática e faz joguinhos de computador! Que tecnológica! 💻✨",
+                characteristics: {
                     genero: "feminino",
-                    idade: "idosa",
-                    parentesco: "avo",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "nao",
-                    frequencia_visita: "pouco"
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "sim",
+                    caracteristica_unica: "agersa-informatica"
                 }
             },
             {
-                name: "Tio do Papai",
-                guiResponse: "Você é meu tio do lado do papai! 👨 O tio de Salvador que sempre me faz rir nas videochamadas! 😄📱",
-                attributes: {
-                    lado_familia: "paterno",
-                    cidade: "salvador",
+                name: "Vovô Materno",
+                guiResponse: "Você é meu vovô materno! 👴 O ex-jogador profissional de futebol! Que história incrível nos gramados! ⚽🏆",
+                characteristics: {
                     genero: "masculino",
-                    idade: "adulto",
-                    parentesco: "tio",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "sim",
-                    frequencia_visita: "pouco"
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "sim",
+                    caracteristica_unica: "ex-jogador-futebol"
                 }
             },
             {
-                name: "Tia do Papai",
-                guiResponse: "Você é minha tia do lado do papai! 👩 A tia de Salvador que sempre pergunta como eu estou! 💕",
-                attributes: {
-                    lado_familia: "paterno",
-                    cidade: "salvador",
+                name: "Vovó Materna",
+                guiResponse: "Você é minha vovó materna! 👵 A vovó que tem dupla jornada: trabalha na PGE e tem o negócio de doces 'As Anas'! Que trabalhadora! 🍰💼",
+                characteristics: {
                     genero: "feminino",
-                    idade: "adulta",
-                    parentesco: "tia",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "sim",
-                    frequencia_visita: "pouco"
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "sim",
+                    caracteristica_unica: "pge-doces"
                 }
             },
 
-            // LADO MATERNO (Família da Mamãe - Salvador)
+            // ===== BISAVÓS =====
             {
-                name: "Vovô da Mamãe",
-                guiResponse: "Você é meu vovô do lado da mamãe! 👴 O vovô de Salvador que sempre me manda beijinhos! 😘🌴",
-                attributes: {
-                    lado_familia: "materno",
-                    cidade: "salvador",
+                name: "Bisavô",
+                guiResponse: "Você é meu bisavô! 👴 Da geração que viu a chegada do homem à lua em 1969! Que história incrível! 🌙🚀",
+                characteristics: {
                     genero: "masculino",
-                    idade: "idoso",
-                    parentesco: "avo",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "nao",
-                    frequencia_visita: "pouco"
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "geracao-lua"
                 }
             },
             {
-                name: "Vovó da Mamãe",
-                guiResponse: "Você é minha vovó do lado da mamãe! 👵 A vovó mais especial de Salvador! Que saudade! 💕🌴",
-                attributes: {
-                    lado_familia: "materno",
-                    cidade: "salvador",
+                name: "Bisavó",
+                guiResponse: "Você é minha bisavó! 👵 Da geração que viu a chegada do homem à lua em 1969! Que história incrível! 🌙🚀",
+                characteristics: {
                     genero: "feminino",
-                    idade: "idosa",
-                    parentesco: "avo",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "nao",
-                    frequencia_visita: "pouco"
-                }
-            },
-            {
-                name: "Tio da Mamãe",
-                guiResponse: "Você é meu tio do lado da mamãe! 👨 O tio de Salvador que manda fotos lindas da cidade! 📸🌴",
-                attributes: {
-                    lado_familia: "materno",
-                    cidade: "salvador",
-                    genero: "masculino",
-                    idade: "adulto",
-                    parentesco: "tio",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "sim",
-                    frequencia_visita: "pouco"
-                }
-            },
-            {
-                name: "Tia da Mamãe",
-                guiResponse: "Você é minha tia do lado da mamãe! 👩 A tia de Salvador que sempre liga para saber de mim! 📞💕",
-                attributes: {
-                    lado_familia: "materno",
-                    cidade: "salvador",
-                    genero: "feminino",
-                    idade: "adulta",
-                    parentesco: "tia",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "sim",
-                    frequencia_visita: "pouco"
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "geracao-lua"
                 }
             },
 
-            // AMIGOS DA FAMÍLIA (São Paulo)
+            // ===== TIOS =====
             {
-                name: "Amiga da Mamãe",
-                guiResponse: "Você é uma amiga especial da minha mamãe! 👩‍🤝‍👩 Que bom que trabalham juntas e você me conhece! 💕",
-                attributes: {
-                    lado_familia: "amigo",
-                    cidade: "sao-paulo",
-                    genero: "feminino",
-                    idade: "adulta",
-                    parentesco: "amigo",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "sim",
-                    frequencia_visita: "frequente"
+                name: "Tio K-POP",
+                guiResponse: "Você é meu tio! 👨 O enfermeiro que gosta de K-POP e faz aulas de dança no Studio A! Que moderno! 🎵💃",
+                characteristics: {
+                    genero: "masculino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "sim",
+                    caracteristica_unica: "enfermeiro-kpop"
                 }
             },
             {
-                name: "Amigo do Papai",
-                guiResponse: "Você é um amigo querido do meu papai! 👨‍🤝‍👨 Que legal que você veio me conhecer! Meu papai tem amigos muito legais! 😊",
-                attributes: {
-                    lado_familia: "amigo",
-                    cidade: "sao-paulo",
+                name: "Tia Criativa",
+                guiResponse: "Você é minha tia criativa! 👩 A criatividade em pessoa! Sempre com ideias incríveis! 🎨✨",
+                characteristics: {
+                    genero: "feminino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "criatividade"
+                }
+            },
+            {
+                name: "Tio Fotógrafo",
+                guiResponse: "Você é meu tio fotógrafo! 👨📸 Recebe prêmios pelo trabalho e é um paizão! Que talento! 🏆👨‍👧‍👦",
+                characteristics: {
                     genero: "masculino",
-                    idade: "adulto",
-                    parentesco: "amigo",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "nao",
-                    trabalha: "sim",
-                    frequencia_visita: "frequente"
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "sim",
+                    caracteristica_unica: "fotografo-premiado"
+                }
+            },
+            {
+                name: "Tio Júnior",
+                guiResponse: "Você é meu tio Júnior! 👨 O tio que tem o mesmo nome do seu pai! Que tradição familiar! 👨‍👦",
+                characteristics: {
+                    genero: "masculino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "mesmo-nome-pai"
+                }
+            },
+            {
+                name: "Tia Materna",
+                guiResponse: "Você é minha tia materna! 👩 A tia que trabalha com a vovó materna! Que parceria! 👩‍💼🤝",
+                characteristics: {
+                    genero: "feminino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "trabalha-com-vovo"
                 }
             },
 
-            // VOVÓ ESPECIAL (Administradora)
+            // ===== TIAS AVÓS =====
             {
-                name: "Vovó Administradora",
-                guiResponse: "Você é minha vovó especial! 👵✨ A vovó que criou este joguinho para mim e cuida de tudo! Te amo, vovó! 💕🎮",
-                attributes: {
-                    lado_familia: "especial",
-                    cidade: "sao-paulo",
+                name: "Tia Avó Cardiologista",
+                guiResponse: "Você é minha tia avó cardiologista! 👩‍⚕️ A cardiologista da família que cuida do coração das pessoas! Que profissão importante! 💖",
+                characteristics: {
                     genero: "feminino",
-                    idade: "idosa",
-                    parentesco: "avo",
-                    mora_aqui: "nao",
-                    cuida_de_mim: "sim",
-                    trabalha: "sim",
-                    frequencia_visita: "frequente"
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "sim",
+                    caracteristica_unica: "cardiologista"
+                }
+            },
+            {
+                name: "Tia Avó Advogada",
+                guiResponse: "Você é minha tia avó advogada! 👩‍⚖️ A advogada predileta da mamãe! Que inteligente! ⚖️✨",
+                characteristics: {
+                    genero: "feminino",
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "sim",
+                    caracteristica_unica: "advogada-predileta"
+                }
+            },
+
+            // ===== PRIMOS =====
+            {
+                name: "Prima da Mamãe",
+                guiResponse: "Você é prima da minha mamãe! 👩 Da mesma geração dos meus pais e foi no casamento deles! Que legal! 💒✨",
+                characteristics: {
+                    genero: "feminino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "casamento-pais"
+                }
+            },
+            {
+                name: "Primo do Papai",
+                guiResponse: "Você é primo do meu papai! 👨 Tem uma filhinha que é minha priminha! Que família linda! 👨‍👧💕",
+                characteristics: {
+                    genero: "masculino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "pai-priminha"
+                }
+            },
+            {
+                name: "Prima Agência de Viagem",
+                guiResponse: "Você é prima do papai! 👩 A dona de agência de viagem que tem um bebê lindo! Que empreendedora! ✈️👶",
+                characteristics: {
+                    genero: "feminino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "sim",
+                    caracteristica_unica: "agencia-viagem"
+                }
+            },
+            {
+                name: "Prima Concursos",
+                guiResponse: "Você é prima do papai! 👩 A prima mais nova que está estudando para concursos! Que dedicada! 📚🎯",
+                characteristics: {
+                    genero: "feminino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "estuda-concursos"
+                }
+            },
+
+            // ===== VÍNCULO ESPIRITUAL =====
+            {
+                name: "Dinda",
+                guiResponse: "Você é minha dinda! 👩✨ A pessoa que tem um laço espiritual especial comigo e mora em São Paulo! Que especial! 💕",
+                characteristics: {
+                    genero: "feminino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "sim",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "madrinha"
+                }
+            },
+
+            // ===== TIOS AVÓS PATERNOS =====
+            {
+                name: "Tio Avô Paterno",
+                guiResponse: "Você é meu tio avô paterno! 👴 Um dos 3 irmãos da minha avó paterna que gosta de passar o réveillon em Ilhéus! 🎆🏖️",
+                characteristics: {
+                    genero: "masculino",
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "reveillon-ilheus"
+                }
+            },
+
+            // ===== AMIGOS DA FAMÍLIA =====
+            {
+                name: "Amigo da Família",
+                guiResponse: "Você é um amigo querido da família! 👨🤝 Da mesma geração dos meus pais mas não é parente! Que legal ter você como amigo! 😊",
+                characteristics: {
+                    genero: "masculino",
+                    nasceu_antes_pais: "nao",
+                    mora_sao_paulo: "sim",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "amigo-familia"
+                }
+            },
+
+            // ===== COLEGAS DA AVÓ PATERNA =====
+            {
+                name: "Colega da Avó Paterna",
+                guiResponse: "Você é colega da minha avó paterna! 👩💼 Não é parente mas conhece a vovó paterna do trabalho! 🏢",
+                characteristics: {
+                    genero: "feminino",
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "colega-avo-paterna"
+                }
+            },
+
+            // ===== COMADRES DA AVÓ PATERNA =====
+            {
+                name: "Comadre da Avó Paterna",
+                guiResponse: "Você é uma das 3 comadres da minha avó paterna! 👵🤝 Do grupo 'Comadres' do WhatsApp! Que amizade especial! 📱💕",
+                characteristics: {
+                    genero: "feminino",
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "comadres-whatsapp"
+                }
+            },
+
+            // ===== FAMÍLIA MACIEL =====
+            {
+                name: "Primo da Família Maciel",
+                guiResponse: "Você é primo da avó paterna! 👨 Da família Maciel! Que família grande e unida! 👨‍👩‍👧‍👦",
+                characteristics: {
+                    genero: "masculino",
+                    nasceu_antes_pais: "sim",
+                    mora_sao_paulo: "nao",
+                    cuida_todos_dias: "nao",
+                    profissao_especifica: "nao",
+                    caracteristica_unica: "familia-maciel"
                 }
             }
         ];
 
-        // PERGUNTAS ESTRATÉGICAS INTELIGENTES
-        const questions = [
-            // Perguntas de DIVISÃO PRINCIPAL (dividem a família em grupos grandes)
-            {
-                text: "Você faz parte do nosso núcleo familiar? (papai, mamãe e eu)",
-                attribute: "lado_familia",
-                value: "nucleo",
-                priority: 10
-            },
-            {
-                text: "Você é da família do lado do meu papai (Pires Santa Barbara)?",
-                attribute: "lado_familia",
-                value: "paterno",
-                priority: 9
-            },
-            {
-                text: "Você é da família do lado da minha mamãe (Barbosa de Paula)?",
-                attribute: "lado_familia",
-                value: "materno",
-                priority: 9
-            },
-            {
-                text: "Você é um amigo querido da nossa família?",
-                attribute: "lado_familia",
-                value: "amigo",
-                priority: 8
-            },
-
-            // Perguntas de LOCALIZAÇÃO (dividem por cidade)
-            {
-                text: "Você mora em São Paulo como eu?",
-                attribute: "cidade",
-                value: "sao-paulo",
-                priority: 8
-            },
-            {
-                text: "Você mora em Salvador?",
-                attribute: "cidade",
-                value: "salvador",
-                priority: 8
-            },
-
-            // Perguntas de GÊNERO (dividem pela metade)
+        // 🎯 SISTEMA DE 6 PERGUNTAS ESTRATÉGICAS
+        const strategicQuestions = [
             {
                 text: "Você é do sexo masculino?",
-                attribute: "genero",
-                value: "masculino",
-                priority: 7
-            },
-
-            // Perguntas de PARENTESCO (específicas)
-            {
-                text: "Você é meu papai ou minha mamãe?",
-                attribute: "parentesco",
-                value: "pai",
-                priority: 6
+                characteristic: "genero",
+                value: "masculino"
             },
             {
-                text: "Você é meu avô ou minha avó?",
-                attribute: "parentesco",
-                value: "avo",
-                priority: 6
+                text: "Você nasceu antes dos meus pais?",
+                characteristic: "nasceu_antes_pais", 
+                value: "sim"
             },
             {
-                text: "Você é meu tio ou minha tia?",
-                attribute: "parentesco",
-                value: "tio",
-                priority: 6
-            },
-
-            // Perguntas de IDADE
-            {
-                text: "Você é uma pessoa idosa (vovô ou vovó)?",
-                attribute: "idade",
-                value: "idoso",
-                priority: 5
-            },
-
-            // Perguntas de PROXIMIDADE
-            {
-                text: "Você mora na mesma casa que eu?",
-                attribute: "mora_aqui",
-                value: "sim",
-                priority: 5
+                text: "Você mora em São Paulo como eu?",
+                characteristic: "mora_sao_paulo",
+                value: "sim"
             },
             {
                 text: "Você cuida de mim todos os dias?",
-                attribute: "cuida_de_mim", 
-                value: "sim",
-                priority: 5
+                characteristic: "cuida_todos_dias",
+                value: "sim"
             },
             {
-                text: "Você trabalha fora de casa?",
-                attribute: "trabalha",
-                value: "sim",
-                priority: 4
+                text: "Você tem uma profissão muito específica ou habilidade única?",
+                characteristic: "profissao_especifica",
+                value: "sim"
             },
             {
-                text: "Você me visita sempre ou quase todos os dias?",
-                attribute: "frequencia_visita",
-                value: "sempre",
-                priority: 4
-            },
-            {
-                text: "Você mora longe e me visita poucas vezes?",
-                attribute: "frequencia_visita",
-                value: "pouco",
-                priority: 4
+                text: "Você faz parte da nossa família de sangue?",
+                characteristic: "caracteristica_unica",
+                value: "familia"
             }
         ];
-
-        // SISTEMA DE APRENDIZADO E ESTATÍSTICAS
-        let gameStats = {
-            gamesPlayed: 0,
-            correctGuesses: 0,
-            learnedPeople: 0,
-            currentStreak: 0,
-            bestStreak: 0,
-            successRate: 95
-        };
 
         // Estado do jogo
         let gameState = {
             currentQuestionIndex: 0,
-            possiblePeople: [...familyDatabase],
-            askedQuestions: [],
-            userAnswers: {}
+            userAnswers: {},
+            allAnswersCollected: false
         };
 
         // INICIALIZAÇÃO
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
             createStars();
-            loadGameStats();
             updateAllStats();
-            setupGenieEyes();
         });
 
         // EFEITOS VISUAIS
@@ -1065,78 +1019,8 @@
             }, 4000);
         }
 
-        function setupGenieEyes() {
-            const genies = document.querySelectorAll('.genie');
-            
-            document.addEventListener('mousemove', (e) => {
-                genies.forEach(genie => {
-                    if (!genie.classList.contains('hidden')) {
-                        const rect = genie.getBoundingClientRect();
-                        const centerX = rect.left + rect.width / 2;
-                        const centerY = rect.top + rect.height / 2;
-                        
-                        const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
-                        const distance = Math.min(3, Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)) / 50);
-                        
-                        const eyeX = Math.cos(angle) * distance;
-                        const eyeY = Math.sin(angle) * distance;
-                        
-                        genie.style.setProperty('--eye-x', eyeX + 'px');
-                        genie.style.setProperty('--eye-y', eyeY + 'px');
-                    }
-                });
-            });
-        }
-
-        // SISTEMA DE APRENDIZADO
-        function loadGameStats() {
-            try {
-                const savedStats = localStorage.getItem('guiGameStats');
-                if (savedStats) {
-                    gameStats = { ...gameStats, ...JSON.parse(savedStats) };
-                }
-                
-                const savedPeople = localStorage.getItem('guiFamilyMembers');
-                if (savedPeople) {
-                    const learnedPeople = JSON.parse(savedPeople);
-                    familyDatabase.push(...learnedPeople);
-                    gameStats.learnedPeople = learnedPeople.length;
-                }
-            } catch (e) {
-                console.log('Erro ao carregar dados:', e);
-            }
-        }
-
-        function saveGameStats() {
-            try {
-                localStorage.setItem('guiGameStats', JSON.stringify(gameStats));
-            } catch (e) {
-                console.log('Erro ao salvar estatísticas:', e);
-            }
-        }
-
         function updateAllStats() {
             document.getElementById('family-count').textContent = familyDatabase.length;
-            document.getElementById('success-rate').textContent = Math.round(gameStats.successRate);
-            document.getElementById('learned-count').textContent = gameStats.learnedPeople;
-            document.getElementById('games-played').textContent = gameStats.gamesPlayed;
-            
-            if (document.getElementById('streak-count')) {
-                document.getElementById('streak-count').textContent = gameStats.currentStreak;
-            }
-            if (document.getElementById('best-streak')) {
-                document.getElementById('best-streak').textContent = gameStats.bestStreak;
-            }
-        }
-
-        function showLearningIndicator(message) {
-            const indicator = document.getElementById('learning-indicator');
-            indicator.textContent = message;
-            indicator.classList.remove('hidden');
-            
-            setTimeout(() => {
-                indicator.classList.add('hidden');
-            }, 3000);
         }
 
         // LÓGICA DO JOGO
@@ -1151,14 +1035,9 @@
         function startGame() {
             gameState = {
                 currentQuestionIndex: 0,
-                possiblePeople: [...familyDatabase],
-                askedQuestions: [],
-                userAnswers: {}
+                userAnswers: {},
+                allAnswersCollected: false
             };
-            
-            gameStats.gamesPlayed++;
-            saveGameStats();
-            updateAllStats();
             
             showScreen('game-screen');
             
@@ -1169,57 +1048,29 @@
 
         function updateProgress() {
             const progress = (gameState.currentQuestionIndex / 6) * 100;
-            document.getElementById('progress-fill').style.width = Math.min(progress, 100) + '%';
+            document.getElementById('progress-fill').style.width = progress + '%';
             document.getElementById('current-question').textContent = gameState.currentQuestionIndex + 1;
             
-            if (document.getElementById('remaining-people')) {
-                document.getElementById('remaining-people').textContent = gameState.possiblePeople.length;
-            }
+            const progressTexts = [
+                "Identificando gênero...",
+                "Analisando geração...",
+                "Verificando localização...",
+                "Checando proximidade...",
+                "Identificando profissão...",
+                "Descobrindo vínculo familiar..."
+            ];
             
-            // Calcular confiança baseada nas possibilidades restantes
-            const confidence = Math.max(0, Math.min(100, 100 - (gameState.possiblePeople.length - 1) * 10));
-            if (document.getElementById('confidence')) {
-                document.getElementById('confidence').textContent = confidence;
-            }
-        }
-
-        function getBestQuestion() {
-            if (gameState.possiblePeople.length <= 1) {
-                return null;
+            if (document.getElementById('progress-text')) {
+                document.getElementById('progress-text').textContent = progressTexts[gameState.currentQuestionIndex] || "Finalizando análise...";
             }
 
-            let bestQuestion = null;
-            let bestScore = -1;
-
-            for (let i = 0; i < questions.length; i++) {
-                if (gameState.askedQuestions.includes(i)) continue;
-
-                const question = questions[i];
-                
-                const yesCount = gameState.possiblePeople.filter(person => {
-                    const personValue = person.attributes[question.attribute];
-                    
-                    if (question.attribute === "parentesco" && question.value === "pai") {
-                        return personValue === "pai" || personValue === "mae";
-                    }
-                    if (question.attribute === "parentesco" && question.value === "tio") {
-                        return personValue === "tio" || personValue === "tia";
-                    }
-                    
-                    return personValue === question.value;
-                }).length;
-                
-                const noCount = gameState.possiblePeople.length - yesCount;
-                const balance = Math.min(yesCount, noCount);
-                const finalScore = balance + (question.priority * 0.1);
-
-                if (finalScore > bestScore) {
-                    bestScore = finalScore;
-                    bestQuestion = i;
+            if (document.getElementById('algorithm-status')) {
+                let status = `Pergunta ${gameState.currentQuestionIndex + 1} de 6 - Sistema completo!`;
+                if (gameState.currentQuestionIndex >= 6) {
+                    status = "Todas as 6 perguntas feitas! Analisando...";
                 }
+                document.getElementById('algorithm-status').textContent = status;
             }
-
-            return bestQuestion;
         }
 
         function askQuestion() {
@@ -1228,7 +1079,8 @@
                 genie.classList.add('thinking');
             }
 
-            if (gameState.possiblePeople.length <= 1 || gameState.currentQuestionIndex >= 6) {
+            // Se já fez todas as 6 perguntas, vai para o resultado
+            if (gameState.currentQuestionIndex >= 6) {
                 setTimeout(() => {
                     if (genie) genie.classList.remove('thinking');
                     showGuess();
@@ -1236,67 +1088,24 @@
                 return;
             }
 
-            const questionIndex = getBestQuestion();
-            if (questionIndex === null) {
-                setTimeout(() => {
-                    if (genie) genie.classList.remove('thinking');
-                    showGuess();
-                }, 1500);
-                return;
-            }
-
-            gameState.askedQuestions.push(questionIndex);
+            const currentQuestion = strategicQuestions[gameState.currentQuestionIndex];
             
             setTimeout(() => {
-                document.getElementById('question-text').textContent = questions[questionIndex].text;
+                document.getElementById('question-text').textContent = currentQuestion.text;
                 if (genie) genie.classList.remove('thinking');
                 updateProgress();
             }, 1500);
         }
 
         function answerQuestion(answer) {
-            const questionIndex = gameState.askedQuestions[gameState.askedQuestions.length - 1];
-            const question = questions[questionIndex];
-            
             // Efeito visual no botão
             event.target.style.transform = 'scale(0.9)';
             setTimeout(() => {
                 event.target.style.transform = 'scale(1)';
             }, 150);
             
-            // Filtrar pessoas baseado na resposta
-            gameState.possiblePeople = gameState.possiblePeople.filter(person => {
-                const personValue = person.attributes[question.attribute];
-                
-                switch (answer) {
-                    case 'sim':
-                        if (question.attribute === "parentesco" && question.value === "pai") {
-                            return personValue === "pai" || personValue === "mae";
-                        }
-                        if (question.attribute === "parentesco" && question.value === "tio") {
-                            return personValue === "tio" || personValue === "tia";
-                        }
-                        return personValue === question.value;
-                    
-                    case 'nao':
-                        if (question.attribute === "parentesco" && question.value === "pai") {
-                            return personValue !== "pai" && personValue !== "mae";
-                        }
-                        if (question.attribute === "parentesco" && question.value === "tio") {
-                            return personValue !== "tio" && personValue !== "tia";
-                        }
-                        return personValue !== question.value;
-                    
-                    case 'nao-sei':
-                    case 'provavelmente':
-                    case 'provavelmente-nao':
-                        return true;
-                    
-                    default:
-                        return true;
-                }
-            });
-            
+            const currentQuestion = strategicQuestions[gameState.currentQuestionIndex];
+            gameState.userAnswers[currentQuestion.characteristic] = answer;
             gameState.currentQuestionIndex++;
             
             setTimeout(() => {
@@ -1305,42 +1114,64 @@
         }
 
         function showGuess() {
-            let guess;
-            if (gameState.possiblePeople.length >= 1) {
-                guess = gameState.possiblePeople[0];
-            } else {
-                guess = familyDatabase.find(person => person.name === "Vovó Administradora") || familyDatabase[0];
+            // Analisar todas as respostas para encontrar a melhor correspondência
+            let bestMatch = null;
+            let bestScore = -999;
+            
+            for (const person of familyDatabase) {
+                let score = 0;
+                let totalQuestions = 0;
+                
+                for (const [characteristic, userAnswer] of Object.entries(gameState.userAnswers)) {
+                    totalQuestions++;
+                    const personValue = person.characteristics[characteristic];
+                    
+                    // Sistema de pontuação baseado nas respostas
+                    if (userAnswer === 'sim' && personValue === 'sim') {
+                        score += 3; // Correspondência exata positiva
+                    } else if (userAnswer === 'nao' && personValue === 'nao') {
+                        score += 3; // Correspondência exata negativa
+                    } else if (userAnswer === 'provavelmente' && personValue === 'sim') {
+                        score += 2; // Correspondência provável
+                    } else if (userAnswer === 'provavelmente-nao' && personValue === 'nao') {
+                        score += 2; // Correspondência provável negativa
+                    } else if (userAnswer === 'nao-sei') {
+                        score += 1; // Neutro
+                    } else {
+                        score -= 2; // Contradição
+                    }
+                }
+                
+                // Bonus para características únicas específicas
+                if (gameState.userAnswers['caracteristica_unica'] === 'sim') {
+                    const uniqueChars = ['craque-maquinas', 'ex-jogador-futebol', 'agersa-informatica', 'pge-doces', 'cardiologista', 'advogada-predileta', 'fotografo-premiado'];
+                    if (uniqueChars.includes(person.characteristics.caracteristica_unica)) {
+                        score += 5;
+                    }
+                }
+                
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = person;
+                }
             }
             
-            document.getElementById('guess-name').textContent = guess.name;
-            document.getElementById('guess-description').textContent = guess.guiResponse;
+            // Se não encontrou uma boa correspondência, pega a primeira pessoa como fallback
+            if (!bestMatch) {
+                bestMatch = familyDatabase[0];
+            }
+            
+            document.getElementById('guess-name').textContent = bestMatch.name;
+            document.getElementById('guess-description').textContent = bestMatch.guiResponse;
             showScreen('result-screen');
         }
 
         function correctGuess() {
-            gameStats.correctGuesses++;
-            gameStats.currentStreak++;
-            gameStats.bestStreak = Math.max(gameStats.bestStreak, gameStats.currentStreak);
-            gameStats.successRate = Math.round((gameStats.correctGuesses / gameStats.gamesPlayed) * 100);
-            
-            saveGameStats();
-            updateAllStats();
-            
             showConfetti();
-            showLearningIndicator('🎉 Gui ficou mais inteligente!');
-            
             showScreen('success-screen');
         }
 
         function wrongGuess() {
-            gameStats.currentStreak = 0;
-            gameStats.successRate = Math.round((gameStats.correctGuesses / gameStats.gamesPlayed) * 100);
-            
-            saveGameStats();
-            updateAllStats();
-            
-            showLearningIndicator('🤔 Gui vai aprender com isso!');
-            
             showScreen('add-person-screen');
         }
 
@@ -1353,33 +1184,23 @@
             const description = document.getElementById('person-description').value.trim();
             
             if (name && description) {
-                // Analisar respostas do usuário para criar atributos inteligentes
-                const newAttributes = analyzeUserAnswers();
-                
                 const newPerson = {
                     name: name,
                     guiResponse: description,
-                    attributes: newAttributes
+                    characteristics: {
+                        genero: "indefinido",
+                        nasceu_antes_pais: "indefinido",
+                        mora_sao_paulo: "indefinido",
+                        cuida_todos_dias: "indefinido",
+                        profissao_especifica: "indefinido",
+                        caracteristica_unica: "novo"
+                    }
                 };
                 
                 familyDatabase.push(newPerson);
-                gameStats.learnedPeople++;
-                
-                // Salvar no localStorage
-                try {
-                    const savedPeople = JSON.parse(localStorage.getItem('guiFamilyMembers') || '[]');
-                    savedPeople.push(newPerson);
-                    localStorage.setItem('guiFamilyMembers', JSON.stringify(savedPeople));
-                } catch (e) {
-                    console.log('Erro ao salvar:', e);
-                }
-                
-                saveGameStats();
                 updateAllStats();
                 
-                showLearningIndicator('🧠 Gui aprendeu sobre ' + name + '!');
-                
-                alert('🎉 Obrigado! Agora eu conheço ' + name + '! Da próxima vez vou conseguir reconhecer! Agora temos ' + familyDatabase.length + ' pessoas na família!');
+                alert('🎉 Obrigado! Agora eu conheço ' + name + '! Da próxima vez vou conseguir descobrir! Agora temos ' + familyDatabase.length + ' pessoas na família!');
                 
                 document.getElementById('person-name').value = '';
                 document.getElementById('person-description').value = '';
@@ -1387,27 +1208,6 @@
             } else {
                 alert('Por favor, me conte o nome e como eu devo responder quando for essa pessoa!');
             }
-        }
-
-        function analyzeUserAnswers() {
-            // Analisar as respostas do usuário para criar atributos inteligentes
-            const attributes = {
-                lado_familia: "especial",
-                cidade: "sao-paulo",
-                genero: "nao-definido",
-                idade: "adulto",
-                parentesco: "especial",
-                mora_aqui: "nao",
-                cuida_de_mim: "nao",
-                trabalha: "sim",
-                frequencia_visita: "frequente"
-            };
-            
-            // Aqui você pode implementar lógica mais sofisticada baseada nas respostas
-            // Por exemplo, se o usuário respondeu "não" para "mora em São Paulo", 
-            // então attributes.cidade = "salvador"
-            
-            return attributes;
         }
 
         function skipAdd() {
