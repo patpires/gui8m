@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adivinhador da Família - Gui 8 Meses (Faixa Etária Melhorada)</title>
+    <title>Adivinhador da Família - Gui 8 Meses</title>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/patpires/gui8m/main/favicon.ico">
     <style>
         * {
             margin: 0;
@@ -275,6 +276,17 @@
             border: 2px solid #f6ad55;
         }
 
+
+        .genie {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: url('genie-baby1.png') center/cover;
+            border: 5px solid #ffd700;
+            animation: float 3s ease-in-out infinite;
+        }
+        
         .guess-name {
             font-size: 1.5em;
             font-weight: bold;
@@ -399,17 +411,16 @@
 
     <div class="container">
         <!-- TELA DE BOAS-VINDAS -->
+                  <div class="genie"></div>
         <div id="welcome-screen">
-            <h1 class="title">🎯 Adivinhador da Família</h1>
-            <p class="subtitle">Olá! Sou o Gui e tenho 8 meses! 👶<br>
-            Vou tentar adivinhar quem você é da nossa FAMÍLIA COMPLETA!</p>
+            <h1 class="title">Adivinhador da Família</h1>
+            <p class="subtitle">Olá! Sou o Gui e tenho 8 meses! <br>
+            Estou aprendendo a reconhecer as pessoas da minha família!</p>
             
             <div class="stats">
-                <strong>🏠 Pessoas na família:</strong> <span id="family-count">0</span><br>
-                <strong>🌍 Cidades:</strong> São Paulo, Salvador, Brasília, Vitória da Conquista, Itapetinga, Portugal<br>
-                <strong>👨‍👩‍👧‍👦 Inclui:</strong> Tios, Tias, Primos, Primas, Padrinhos e Amigos!<br>
-                <strong>🎮 Como funciona:</strong> Vou fazer perguntas e você responde SIM ou NÃO!<br>
-                <strong>✨ Versão:</strong> Faixa Etária Melhorada - Diferenciação Precisa!
+                <strong>👨‍👩‍👧‍👦 Eu já consigo conhecer alguns:</strong> Tios, Tias, Primos, Primas, Padrinhos e Amigos!<br>
+                <strong>🎮 Como funciona:</strong> Vou tentar descobri quem é você ou  você pode pensar em alguém da minha família tá? Aí eu fazer perguntas e você responde SIM ou NÃO!<br>
+
             </div>
             
             <div style="margin-top: 25px;">
@@ -482,7 +493,7 @@
             <p style="font-size: 1.2em; margin: 20px 0; color: #38a169;">
                 Eba! Eu sabia que era você! 😄<br>
                 Sou muito esperto para um bebê de 8 meses! 👶✨<br>
-                Agora conheço toda a nossa família grande!
+                Agora conheço toda a nossa família!
             </p>
             
             <div style="margin-top: 25px;">
